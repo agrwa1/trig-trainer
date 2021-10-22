@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import { Typography } from '@material-ui/core';
-import homeScreen from './screens/homeScreen';
-import testScreen from './screens/testScreen';
-import profileScreen from './screens/profileScreen';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import HomeScreen from './screens/HomeScreen';
+import TestScreen from './screens/TestScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Link,
+	Redirect,
+} from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { firebaseApp } from './firebase';
 
 function App() {
 	return (
 		<Router>
 			<Switch>
-				<Route path='/profile' component={profileScreen} />
-				<Route path='/test' component={testScreen} />
-				{/* <Route path='/signup' component={signUpScreen} /> */}
-				<Route path='/learn' component={homeScreen} />
-				<Route path='/' component={homeScreen} />
+				<Route path='/profile' component={ProfileScreen} />
+				<Route path='/test' component={TestScreen} />
+				<Route path='/signup' component={SignUpScreen} />
+				<Route path='/learn'>
+					<Redirect to='/' />
+				</Route>
+				<Route path='/' component={HomeScreen} />
 			</Switch>
 		</Router>
 	);
