@@ -10,7 +10,12 @@ import { Redirect, useHistory } from 'react-router-dom'
 const ProfileScreen = () => {
     const [name, setName] = useState(" ")
     const [id, setId] = useState("")
+
     const auth = getAuth(firebaseApp)
+    useEffect(() => {
+        console.log(auth)
+    })
+
     if (!auth) {
         return <Redirect to='/signup' />
     }
@@ -39,10 +44,7 @@ const ProfileScreen = () => {
     
     return (
         <div>
-            <Link to="/"><Button variant="contained">Home</Button></Link>
-            <Link to="/test"><Button variant="contained">Test</Button></Link>
-            <Link to="/profile"><Button variant="contained">Profile</Button></Link>
-            <Link to="/signup"><Button variant="contained">Sign Up</Button></Link>
+            
             {/* add functionality: if user is not logged in --> sign up screen */}
             {/* {
                 !auth &&
@@ -63,6 +65,7 @@ const SignOutButton = () => {
     const auth = getAuth(firebaseApp)
     const handleClick = () => {
         signOut(auth)
+        console.log(auth)
     }
     return (
         <Button variant="contained" onClick={handleClick}>Sign out of Google</Button>

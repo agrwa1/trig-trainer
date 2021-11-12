@@ -13,20 +13,24 @@ import {
 } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { firebaseApp } from './firebase';
+import Nav from './Nav';
 
 function App() {
 	return (
-		<Router>
-			<Switch>
-				<Route path='/profile' component={ProfileScreen} />
-				<Route path='/test' component={TestScreen} />
-				<Route path='/signup' component={SignUpScreen} />
-				<Route path='/learn'>
-					<Redirect to='/' />
-				</Route>
-				<Route path='/' component={HomeScreen} />
-			</Switch>
-		</Router>
+		<>
+			<Router>
+				<Nav />
+				<Switch>
+					<Route path='/profile' component={ProfileScreen} />
+					<Route path='/test' component={TestScreen} />
+					<Route path='/signup' component={SignUpScreen} />
+					<Route path='/learn'>
+						<Redirect to='/' />
+					</Route>
+					<Route path='/' component={HomeScreen} />
+				</Switch>
+			</Router>
+		</>
 	);
 }
 

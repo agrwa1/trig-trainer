@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css?family=Droid+Sans+Mono");
+body {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  stroke: #ee4b2b;
+  fill: transparent;
+  stroke-width: 8px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.thin {
+  stroke: #000;
+  fill: transparent;
+  stroke-width: 3px;
+}
+
+text {
+  font-family: 'Droid Sans Mono', monospace;
+  font-size: 20px;
+  fill: #ee4b2b;
+  stroke: #ee4b2b;
+  stroke-width: 1px;
+}
+/*# sourceMappingURL=TestGraph.css.map */
