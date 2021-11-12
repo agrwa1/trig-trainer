@@ -47,8 +47,12 @@ const TestScreen = () => {
            {/* <Typography variant="h2">This is the Learn Page</Typography> */}
             <Button variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'secondary'} >Next Question</Button> 
             <Typography variant="h2">Problem: {problem.type}({problem.degree})</Typography>      
-            <Typography variant="h4">Degree: {problem.degree}</Typography>   
-            <Typography variant="h4">Answer: {problem.answer}</Typography>   
+            <Typography variant="h4">Degree: {problem.degree}</Typography> 
+            {
+                (correct == true || correct == false)
+                &&
+                <Typography variant="h4">Answer: {problem.answer}</Typography>   
+            }  
 
             <TestGraph stoppingDegree={problem.degree} /> 
             </div>
@@ -57,14 +61,14 @@ const TestScreen = () => {
 
             <div>
 
-            <AnswerButtons correctAnswer={problem.answer} setFinalAnswerChoice={setFinalAnswerChoice} setCorrect={setCorrect} finalAnswerChoice={finalAnswerChoice} correct={correct}/>
+            <AnswerButtons correctAnswer={problem.answer} setFinalAnswerChoice={setFinalAnswerChoice} setCorrect={setCorrect} finalAnswerChoice={finalAnswerChoice} correct={correct} getNewProblem={getProblem}/>
   
             </div>
         </div>
     )
 }
 
-const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalAnswerChoice, correct }) => {
+const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalAnswerChoice, correct, getNewProblem }) => {
     const [positiveSign, setPositiveSign] = useState(true)
     const [answerChoice, setAnswerChoice] = useState('')
 
@@ -72,7 +76,24 @@ const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalA
     // on submit: combine questions and check if answre is correct
     const handleAnswerChoiceChange = (choice) => {
         setAnswerChoice(choice)
+        createAnswer()
         // handleSubmit()
+    }
+
+    const createAnswer = () => {
+        if (positiveSign) {
+            setFinalAnswerChoice(answerChoice)
+        } 
+        else { // negative is chosen
+            if (answerChoice == 'undefined') {
+                setFinalAnswerChoice('undefined')
+
+            } else if( answerChoice == '0') {
+                setFinalAnswerChoice('0')
+            } else {
+                setFinalAnswerChoice('-' + answerChoice)
+            }
+        }
     }
 
     const handleSignChangeToPositive = () => {
@@ -109,20 +130,8 @@ const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalA
     }
 
     const handleSubmit = () => {
-        if (positiveSign) {
-            setFinalAnswerChoice(answerChoice)
-        } 
-        else { // negative is chosen
-            if (answerChoice == 'undefined') {
-                setFinalAnswerChoice('undefined')
 
-            } else if( answerChoice == '0') {
-                setFinalAnswerChoice('0')
-            } else {
-                setFinalAnswerChoice('-' + answerChoice)
-            }
-        }
-
+        // requires 2 clicks to trigger correct response
         // setTimeout(500)
 
         if (finalAnswerChoice == correctAnswer) {
@@ -139,11 +148,11 @@ const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalA
 
 
     return (
-        <div style={{border: '1px solid black', height: '70%', maxWidth: '50%', padding: '1em'}}>
+        <div style={{ height: '70%', maxWidth: '50%', padding: '1em'}}>
         
 
-            <Button variant="outlined" onClick={handleSignChangeToPositive} disabled={positiveSign} style={{fontSize: 20, width: '30%'}}> + </Button>
-            <Button variant="outlined" onClick={handleSignChangeToNegative} disabled={!positiveSign} style={{fontSize: 20, width: '30%'}}> - </Button>
+            <Button variant="contained" color="secondary" onClick={handleSignChangeToPositive} disabled={positiveSign} style={{fontSize: 20, width: '30%'}}> + </Button>
+            <Button variant="contained" color="secondary" onClick={handleSignChangeToNegative} disabled={!positiveSign} style={{fontSize: 20, width: '30%'}}> - </Button>
 
             <br />
 
@@ -193,6 +202,11 @@ const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalA
                 }
 
             </Button>
+            {
+                correct == true
+                &&
+                <Button variant="outlined" onClick={getNewProblem}>Next Question</Button>
+            }
         </div>
     )
 }
