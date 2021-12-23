@@ -2,25 +2,47 @@ import React, { useState, useEffect } from 'react'
 import { Typography, Button } from '@mui/material'
 import TestGraph from './../components/TestGraph'
 import {problemSet} from './../utils/problems'
-import { addStyles, EditableMathField, StaticMathField } from 'react-mathquill'
-
-// import { firebaseApp, db } from './../firebase'
-// import { collection, doc, setDoc, getDoc } from 'firebase/firestore'
+import { addStyles, StaticMathField } from 'react-mathquill'
+// import { getAuth } from 'firebase/auth' // keep this for rerouting?
 
 addStyles()
 
 const TestScreen = () => {
-
-    const [streak, setStreak] = useState({sin: 0, cos: 0, tan: 0, sec: 0, csc: 0, cot: 0})
+    const [reload, setReload] = useState(0) // this line is only to reload the page on auth change
+    const [streak, setStreak] = useState(0)
     const [problem, setProblem] = useState({})
     const [finalAnswerChoice, setFinalAnswerChoice] = useState('')
     const [correct, setCorrect] = useState(null)
 
+
+
+
     // make function to change streak and pass to answer choices
-    // on change of setfinalanswerchoice, function should 
     
     // implement auth and redirect
     // set state for type of problem
+
+    const handleGotProblemCorrect = () => {
+        setStreak(streak => streak + 1)
+        // set streak
+        // check if user is logged in
+        // if user is logged in, then:
+        // add correct question to database and update profile
+
+        // for adding info to database
+        // switch(problem.type) {
+        //     case 'sin':
+        // }
+
+        // setStreak(streak[problem.type]++)
+
+        // if (user is authenticated) {
+        //     add problem to database
+        // }
+    }
+    const handleGotProblemWrong = () => {
+        setStreak(0)
+    }
 
     const getProblem = () => {
         const random = problemSet[Math.floor(Math.random() * problemSet.length)];
@@ -34,25 +56,33 @@ const TestScreen = () => {
 
     useEffect(() => {
         if (!problem.name) {
-            console.log('use effect loop started')
             getProblem()
+            // console.log(auth)
         }
+        setReload(num => num + 1) // forcing re render
         
     })
 
     return (
-        <div style={{display: 'flex', padding: '2em'}}>
+        <div style={{display: 'flex', padding: '2em', justifyContent: 'center'}}>
+            
+            
             <div>
+            
+            
 
-           {/* <Typography variant="h2">This is the Learn Page</Typography> */}
-            <Button variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'secondary'} >Next Question</Button> 
+            <Button variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
             <Typography variant="h2">Problem: {problem.type}({problem.degree})</Typography>      
-            <Typography variant="h4">Degree: {problem.degree}</Typography> 
-            {
+            {/* {
                 (correct == true || correct == false)
-                &&
+            && */}
                 <Typography variant="h4">Answer: {problem.answer}</Typography>   
-            }  
+            {/* }   */}
+            
+            {
+                streak >= 3 &&
+                <Typography variant="h4">{streak} in a row 🔥🔥.</Typography>
+            }
 
             <TestGraph stoppingDegree={problem.degree} /> 
             </div>
@@ -61,22 +91,32 @@ const TestScreen = () => {
 
             <div>
 
-            <AnswerButtons correctAnswer={problem.answer} setFinalAnswerChoice={setFinalAnswerChoice} setCorrect={setCorrect} finalAnswerChoice={finalAnswerChoice} correct={correct} getNewProblem={getProblem}/>
+            <AnswerButtons correctAnswer={problem.answer} setFinalAnswerChoice={setFinalAnswerChoice} setCorrect={setCorrect} finalAnswerChoice={finalAnswerChoice} correct={correct} getNewProblem={getProblem} onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong}/>
   
             </div>
         </div>
     )
 }
 
-const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalAnswerChoice, correct, getNewProblem }) => {
+const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalAnswerChoice, correct, getNewProblem, onCorrect, onWrong }) => {
     const [positiveSign, setPositiveSign] = useState(true)
     const [answerChoice, setAnswerChoice] = useState('')
+    const [activeAnswer, setActiveAnswer] = useState('')
+
+    // TO IMPLEMENT
+    // Implement disabled states for answer choices
+    // Implement toggle switch for positive or negative options
+
+    useEffect(() => {
+        createAnswer()
+    }, [answerChoice, positiveSign])
 
     // on new question, reset answer choice
     // on submit: combine questions and check if answre is correct
     const handleAnswerChoiceChange = (choice) => {
         setAnswerChoice(choice)
-        createAnswer()
+        // createAnswer()
+        setActiveAnswer(choice)
         // handleSubmit()
     }
 
@@ -130,59 +170,145 @@ const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalA
     }
 
     const handleSubmit = () => {
-
-        // requires 2 clicks to trigger correct response
-        // setTimeout(500)
-
         if (finalAnswerChoice == correctAnswer) {
-            console.log('point 1')
             setCorrect(true)
+            onCorrect()
         } else {
-            setCorrect(false)
+            setCorrect(false) 
+            onWrong()
         }
-
-
+        setFinalAnswerChoice('')
     }
-
-    
-
 
     return (
         <div style={{ height: '70%', maxWidth: '50%', padding: '1em'}}>
+
+                <Typography variant="h4">Current Guess: {finalAnswerChoice}</Typography>
+            
         
 
-            <Button variant="contained" color="secondary" onClick={handleSignChangeToPositive} disabled={positiveSign} style={{fontSize: 20, width: '30%'}}> + </Button>
-            <Button variant="contained" color="secondary" onClick={handleSignChangeToNegative} disabled={!positiveSign} style={{fontSize: 20, width: '30%'}}> - </Button>
+            <Button variant="contained" color="primary" onClick={handleSignChangeToPositive} disabled={positiveSign} style={{fontSize: 20, width: '30%'}}> + </Button>
+            <Button variant="contained" color="primary" onClick={handleSignChangeToNegative} disabled={!positiveSign } style={{fontSize: 20, width: '30%'}}> - </Button>
 
             <br />
 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt2Over2} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'\\frac{\\sqrt{2}}{2}'}</StaticMathField>
-            </Button> 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt3Over2} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'\\frac{\\sqrt{3}}{2}'}</StaticMathField>
-            </Button> 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1Over2} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'\\frac{1}{2}'}</StaticMathField>
-            </Button> 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1OverRt3} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'\\frac{1}{\\sqrt{3}}'}</StaticMathField>
-            </Button> 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt3} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'\\sqrt{3}'}</StaticMathField>
-            </Button> 
+            {
+                activeAnswer == '√2/2'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt2Over2} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{\\sqrt{2}}{2}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== '√2/2'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt2Over2} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{\\sqrt{2}}{2}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer == '√3/2'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt3Over2} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{\\sqrt{3}}{2}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== '√3/2'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt3Over2} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{\\sqrt{3}}{2}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer == '1/2'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1Over2} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{1}{2}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== '1/2'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1Over2} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{1}{2}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer == '1/√3'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1OverRt3} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{1}{\\sqrt{3}}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== '1/√3'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1OverRt3} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'\\frac{1}{\\sqrt{3}}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer == '√3'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt3} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'\\sqrt{3}'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== '√3'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToRt3} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'\\sqrt{3}'}</StaticMathField>
+                </Button> 
+            } 
+            {
+                activeAnswer == '1'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'1'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== '1'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'1'}</StaticMathField>
+                </Button> 
+            } 
+            {
+                activeAnswer == '0'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo0} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'0'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== '0'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo0} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'0'}</StaticMathField>
+                </Button> 
+            } 
+            {
+                activeAnswer == 'undefined'
+                &&
+                <Button variant="contained" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToUndefined} color="primary">
+                    <StaticMathField style={{fontSize: 40}}>{'undefined'}</StaticMathField>
+                </Button> 
+            }
+            {
+                activeAnswer !== 'undefined'
+                &&
+                <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToUndefined} color="inherit">
+                    <StaticMathField style={{fontSize: 40}}>{'undefined'}</StaticMathField>
+                </Button> 
+            } 
 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo1} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'1'}</StaticMathField>
-            </Button> 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeTo0} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'0'}</StaticMathField>
-            </Button> 
-            <Button variant="outlined" style={{ padding: 20, margin: '1em'}} onClick={handleAnswerChoiceChangeToUndefined} color="inherit">
-                <StaticMathField style={{fontSize: 40}}>{'undefined'}</StaticMathField>
-            </Button> 
+            
 
-            <Button variant="contained" onClick={handleSubmit} size="large" color={correct ? 'success' : (correct === false) ? 'error' : 'secondary'}>
+
+            <Button variant="contained" onClick={handleSubmit} size="large" color={correct ? 'success' : (correct === false) ? 'error' : 'primary'}>
                 {
                     correct === null 
                     &&
@@ -203,9 +329,9 @@ const AnswerButtons = ({ correctAnswer, setFinalAnswerChoice, setCorrect, finalA
 
             </Button>
             {
-                correct == true
+                (correct == true || correct == false)
                 &&
-                <Button variant="outlined" onClick={getNewProblem}>Next Question</Button>
+                <Button variant="outlined" onClick={getNewProblem}>Next Question  {'-->'}</Button>
             }
         </div>
     )

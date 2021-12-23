@@ -1,0 +1,26 @@
+This text file will describe the algorithms used to 
+create an effective reroll algorithm given an object with numerical
+values for the different trig functions.
+-------------------------------------
+
+Sample input(from firebase): // number of correct problems by a user
+{
+    sin: 4,
+    cos: 8,
+    tan: 12
+}
+
+// maybe a reciprocal weighted average ??
+total questions: 24
+after algo: 
+{
+    sin: 24/4 = 6
+    cos: 24/8 = 3
+    tan: 24/12 = 2
+}
+
+Math.floor() all the numbers and give that many questions per function
+
+
+const [questionOrder, setQuestionOrder] = useState([])
+// how to order questions

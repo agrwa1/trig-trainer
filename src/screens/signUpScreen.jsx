@@ -1,23 +1,41 @@
-import React from 'react'
-import { Typography, Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Typography } from '@material-ui/core'
+
 import { GoogleAuthProvider, getAuth, signInWithPopup  } from 'firebase/auth'
-import { firebaseApp } from '../firebase'
+import { auth } from '../firebase'
+import { Redirect } from 'react-router-dom'
+import GoogleButton from 'react-google-button'
 
 const SignUpScreen = () => {
+    const [reload, setReload] = useState(0)
     const provider = new GoogleAuthProvider()
-    const auth = getAuth(firebaseApp)
+    
     const handleClick = () => {
         //hopefully this doesn't mess up bc i have no error handling
         signInWithPopup(auth, provider) 
+        // handle failure
     }
 
-    // add functionality: redirect to profile on succesful sign in/up
+    useEffect(() => {
+        setReload(num => num + 1)
+    })
+
     return (
-        <div>
+        <div style={{padding: '2em'}}>
+
+            {
+                auth.currentUser &&
+                <Redirect to="/profile" />
+            }
+
+            {
+                !auth.currentUser &&
+                <div>
+                    <Typography variant="h1">Please Log in with Google to continue </Typography>
+                    <GoogleButton onClick={handleClick} type={'dark'}/>
+                </div>
+            }
             
-            <Typography variant="h1">This is the sign up and log in screen</Typography>
-            <Button variant="contained" onClick={handleClick}>Sign up with Google</Button>
         </div>
     )
 }

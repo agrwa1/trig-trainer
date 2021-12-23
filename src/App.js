@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography } from '@material-ui/core';
+
 import HomeScreen from './screens/HomeScreen';
 import TestScreen from './screens/TestScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -13,7 +13,7 @@ import {
 } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { firebaseApp } from './firebase';
-import Nav from './Nav';
+import Nav from './components/Nav';
 
 function App() {
 	return (
