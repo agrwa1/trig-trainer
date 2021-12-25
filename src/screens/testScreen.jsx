@@ -3,6 +3,7 @@ import { Typography, Button } from '@mui/material'
 import TestGraph from './../components/TestGraph'
 import {problemSet} from './../utils/problems'
 import { addStyles, StaticMathField } from 'react-mathquill'
+import AnswerChoices from '../components/AnswerChoices/AnswerChoices'
 // import { getAuth } from 'firebase/auth' // keep this for rerouting?
 
 addStyles()
@@ -13,9 +14,6 @@ const TestScreen = () => {
     const [problem, setProblem] = useState({})
     const [finalAnswerChoice, setFinalAnswerChoice] = useState('')
     const [correct, setCorrect] = useState(null)
-
-
-
 
     // make function to change streak and pass to answer choices
     
@@ -64,34 +62,34 @@ const TestScreen = () => {
     })
 
     return (
-        <div style={{display: 'flex', padding: '2em', justifyContent: 'center'}}>
-            
-            
-            <div>
-            
-            
 
+        <div style={{display: 'flex', maxHeight: '80vh', width: '100vw', overflowY: 'hidden', overflowX: 'hidden'}}>
+            
+            
+            <div style={{width: '45%'}}>
             <Button variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
             <Typography variant="h2">Problem: {problem.type}({problem.degree})</Typography>      
-            {/* {
-                (correct == true || correct == false)
-            && */}
-                <Typography variant="h4">Answer: {problem.answer}</Typography>   
-            {/* }   */}
             
+            {/* Can make streak simpler. For every question right, add a flame */}
             {
-                streak >= 3 &&
-                <Typography variant="h4">{streak} in a row 🔥🔥.</Typography>
+                streak >= 2 &&
+                <Typography variant="h4">{streak} in a row 🔥🔥.</Typography> 
             }
 
             <TestGraph stoppingDegree={problem.degree} /> 
+            {
+                (correct == true || correct == false)
+            &&
+                <Typography variant="h4">Answer: {problem.answer}</Typography>   
+            }  
             </div>
 
 
 
-            <div>
+            <div style={{width: '45%', marginRight: '6em'}}>
 
-            <AnswerButtons correctAnswer={problem.answer} setFinalAnswerChoice={setFinalAnswerChoice} setCorrect={setCorrect} finalAnswerChoice={finalAnswerChoice} correct={correct} getNewProblem={getProblem} onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong}/>
+            <AnswerChoices setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer} onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong}/>
+            {/* <AnswerButtons   setCorrect={setCorrect}  correct={correct} getNewProblem={getProblem} /> */}
   
             </div>
         </div>
