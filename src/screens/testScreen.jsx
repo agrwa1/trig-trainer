@@ -5,24 +5,28 @@ import TestGraph from './../components/TestGraph'
 import {problemSet} from './../utils/problems'
 import AnswerChoices from '../components/AnswerChoices/AnswerChoices'
 import TestSettings from '../components/TestSettings'
+import identifyAngles from '../utils/identifyAngles'
 
 // import { getAuth } from 'firebase/auth' // keep this for rerouting?
 
 // IDEAS:
 //  - create a settings screen for users to adjust what problem they want to work on
 //  - Make the next problem function into a doubly linked list so users can go back to review answers
+//  - Make sure the same question doesn't get repeated
 
 
 const TestScreen = () => {
     // const [reload, setReload] = useState(0) // this line is only to reload the page on auth change
     const [streak, setStreak] = useState(0)
     const [problem, setProblem] = useState({})
+    const [oldProblem, setOldProblem] = useState({})
     const [finalAnswerChoice, setFinalAnswerChoice] = useState('')
     const [correct, setCorrect] = useState(null)
     const [references, setReferences] = useState(false)
     const [settings, setSettings ] = useState(false)
     const [filteredOutTypes, setFilteredOutTypes] = useState({sin: false, cos: false, tan: false})
     const [filteredOutQuadrants, setFilteredOutQuadrants] = useState({q1: false, q2: false, q3: false, q4: false})
+    const [radians, setRadians] = useState(true)
 
     // make function to change streak and pass to answer choices
     
@@ -52,6 +56,10 @@ const TestScreen = () => {
     }
 
     const getProblem = () => {
+        setOldProblem(problem) // this sets the old problem to the current problem
+        // console.log(`Old Problem: `)
+        // console.log(oldProblem)
+
         let random = problemSet[Math.floor(Math.random() * problemSet.length)];
         // verified = verifyproblem()
         // while !verified:
@@ -63,6 +71,8 @@ const TestScreen = () => {
             verified = verifyProblem(random)
         }
 
+        // console.log(`New Problem: `)
+        // console.log(problem)
         setProblem(random)
 
         // setting correct answer to null
@@ -71,9 +81,9 @@ const TestScreen = () => {
         return;
     }
 
-    const verifyProblem = (problem) =>{
-        const type = problem.type;
-        const quadrant = problem.quadrant;
+    const verifyProblem = (random) =>{
+        const type = random.type;
+        const quadrant = random.quadrant;
 
         // if (type == 'sin') {
         //     return true
@@ -109,6 +119,10 @@ const TestScreen = () => {
             }
         }
 
+        if (oldProblem.name == random.name) { // if new problem is the same as the old problem
+            return false
+        }
+
         return true
     }
 
@@ -116,6 +130,8 @@ const TestScreen = () => {
         if (!problem.name) {
             getProblem()
             console.log(problem.type)
+            console.log(typeof problem.degree)
+            console.log(identifyAngles('0'))
             // console.log(auth)
         }
         // setReload(num => num + 1) // forcing re render -- very broken .causes thousands oferrors
@@ -146,7 +162,7 @@ const TestScreen = () => {
                             open={settings}
                              
                         >
-                            <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants}/>
+                            <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants} radians={radians} setRadians={setRadians}/>
                         </Backdrop>
                         <Button variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
                         {/* <div>
@@ -159,8 +175,17 @@ const TestScreen = () => {
 </div> */}
                         
                     </div>
-                    
-                    <Typography variant="h2">What is {problem.type}({problem.degree})?</Typography> 
+                    {
+                        !radians &&
+                        <Typography variant="h2">What is {problem.type}({problem.degree})?</Typography> 
+
+                    }
+                    {
+                        radians &&
+                        <div>
+                            <Typography variant="h2">What is {problem.type}({identifyAngles(problem.degree)})?</Typography> 
+                        </div>
+                    }
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <TestGraph stoppingDegree={problem.degree} references={references} /> 
                     </div>

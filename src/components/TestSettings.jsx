@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { Typography, Paper, Button, Switch, FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 
-const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes, setFilteredOutTypes, filteredOutQuadrants, setFilteredOutQuadrants }) => {
+// WORKING ON:
+//  - if user selects none of the options, send an alert that makes them choose
+//      - or just auto make it reset to all
+
+const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes, setFilteredOutTypes, filteredOutQuadrants, setFilteredOutQuadrants, radians, setRadians}) => {
 
     const onTypeClick = (val) => {
         // if filteredOutTypes[val] is true, set to false. 
@@ -33,6 +37,8 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
             q3: false,
             q4: false
         })
+        setReferences(false)
+        setRadians(true)
     }
 
     return(
@@ -44,8 +50,15 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
                     <hr />
                 </div>
                 <div style={{display: 'flex'}}>
-                    <Typography variant="h5">References: </Typography>
-                    <Switch checked={references} onClick={() => setReferences( references ? false : true )} />     
+
+                    <div style={{display: 'flex'}}>
+                        <Typography variant="h5">References: </Typography>
+                        <Switch checked={references} onClick={() => setReferences( references ? false : true )} />     
+                    </div>
+                    <div style={{display: 'flex'}}>
+                        <Typography variant="h5">Radians: </Typography>
+                        <Switch checked={radians} onClick={() => setRadians( radians ? false : true )} />     
+                    </div>
                 </div>
 
                 <div style={{display: 'flex', justifyContent: 'space-around'}}>
