@@ -9,70 +9,119 @@ import { Button, Typography } from '@mui/material'
 // 3) Create a final answer choice and use the setAnswerChoice method
 // 4) Accept the correct answer as props and handle submittion of answer
 
-const allAnswers = ['-√3/2', '-√2/2', '-1/2', '-1', '-√3', '-1/√3', '0', '1/√3', '√3', '1', '1/2', '√2/2', '√3/2', 'undefined']
+const allAnswers = ['-√3/2', '-√2/2', '-1/2', '-1', '-√3', '-1/√3', '1/√3', '√3', '1', '1/2', '√2/2', '√3/2', '0', 'undefined']
 
-const AnswerChoices = ({setAnswerChoice, answerChoice, correctAnswer, onCorrect, onWrong }) => {
+const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, onCorrect, onWrong, correct, setCorrect, getNewProblem }) => {
     // correctAnswer
     // AnswerChoice
     // setAnswerChoice
+    // onCorrect
+    // onWrong
 
-    // useEffect(() => {
-    //     console.log('test')
-    //     console.log(AnswerChoice)
-    // }, [])
+    // BUGS:
+    // after submittion, user can still click other options and resubmit to get question right
 
     // if ans == AnswerChoice, then active, if not then default
 
     const onSubmit = () => {
         // function should check if answer is correct and call appropriate functions
         if (correctAnswer == answerChoice ) {
+            setCorrect(true)
             onCorrect()
         }
         else {
+            setCorrect(false)
             onWrong()
         }
-        console.log('Question submitted')
+         
     }
+
+    // Submit button:
+    //  - if answer is correct, next question
+    // - if wrong, check again
+    // - else, check
 
 
     return (
-        <div>
-            <h1>{correctAnswer}</h1>
+        <div style ={{height: '100%', width: '100%', padding: '1rem'}}>
+            {/* <h1>{correctAnswer}</h1> */}
 
         {/* This div is for all the Answer Buttons */}
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr 1fr', gridRowGap: 10, marginTop: 20}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr 1fr', gridRowGap: 10, }}>
                 {
                     allAnswers.map(ans => (
-                        <AnswerButton val={ans} setAnswerChoice={setAnswerChoice} answerChoice={answerChoice} />
+                        <AnswerButton val={ans} setAnswerChoice={setAnswerChoice} answerChoice={answerChoice} correct={correct} setCorrect={setCorrect} correctAnswer={correctAnswer}/>
                     ))
                 }
-                <Button variant="contained" style={{width: 200, height: 100}} onClick={onSubmit}>
-                    <Typography variant="h6">Check</Typography>
-                </Button>
+                {
+                    (correct == true || correct == false) &&
+                    <Button variant="contained" style={{width: 200, height: 100}} onClick={getNewProblem} color='success' >
+                        <Typography variant="h6">Next Question</Typography>
+                    </Button>
+                }
+                
+                {
+                    correct == null &&
+                    <Button variant="contained" style={{width: 200, height: 100}} onClick={onSubmit} color='primary' >
+                        <Typography variant="h6">Submit</Typography>
+                    </Button>
+                }
             </div> 
+
+            
 
             {/* <h1>{answerChoice}</h1> */}
         </div>
     )
 }
 
-const AnswerButton = ({val, setAnswerChoice, answerChoice }) => {
+const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, correctAnswer }) => {
     // create method that changes final answer choice on button click
 
     const [clicked, setClicked] = useState(false)
 
 
     const onClick = () => {
+        // if statement -> return gets rid of bug where:
+        //      after submitting answer, user can still click on answer choices and they will appear red or green
+        if (correct == true || correct == false ) {
+            return
+        }
         setAnswerChoice(val)
+
+        // sets the current state of correctness to void
+        // setCorrect(null) 
+
+
         // let AnswerChoice state reflect change of state
         setClicked(true)
 
     }
 
+    const styler = (val) => {
+        // if val==answer choice -> styles.active
+        // if correct == true || false && correctAnswer == val. This is to make a separate answer button correct if the answer wrong
+        // if correct and val=answer choice -> styles.correct
+        // if correct == false and val == answer choice -> styles.wrong
+        // else styles.default
+
+        if(val == answerChoice && correct == true) {
+            return styles.correct
+        } else if ((correct == true || correct == false) && correctAnswer == val) {
+            return styles.correct
+        } else if (val == answerChoice && correct == false) {
+            return styles.wrong
+        } else if (val == answerChoice) {
+            return styles.active
+        } else {
+            return styles.default
+        }
+    }
+
     return (
         // Make button look non crappy
         // make this look better
-        <Button onClick={onClick} style={ val == answerChoice ? styles.active : styles.default} color={clicked ? 'secondary' : "primary"} >
+        <Button onClick={onClick} style={styler(val)} color={clicked ? 'secondary' : "primary"} >
             <Typography variant="h5" className="answer-choice-text" >{val}</Typography>
         </Button>
     )
@@ -89,6 +138,18 @@ const styles = {
         width: 200, 
         height: 100, 
         background: 'grey', 
+        color: 'white'
+    },
+    correct: {
+        width: 200, 
+        height: 100, 
+        background: 'green', 
+        color: 'white' 
+    },
+    wrong : {
+        width: 200, 
+        height: 100, 
+        background: 'red', 
         color: 'white'
     }
 }

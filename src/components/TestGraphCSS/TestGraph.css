@@ -6,7 +6,7 @@ body {
 }
 
 svg {
-  stroke: #ee4b2b;
+  stroke: #1876d2;
   fill: transparent;
   stroke-width: 8px;
   max-width: 100%;
@@ -22,8 +22,8 @@ svg {
 text {
   font-family: 'Droid Sans Mono', monospace;
   font-size: 20px;
-  fill: #ee4b2b;
-  stroke: #ee4b2b;
+  fill: #1876d2;
+  stroke: #1876d2;
   stroke-width: 1px;
 }
 /*# sourceMappingURL=TestGraph.css.map */

@@ -111,7 +111,7 @@ const cos = value => Math.cos(value/180*Math.PI)
 
 const Draw = ({ degree }) => {
     return (
-    <svg width='1200' height='720' viewBox='140 -30 400 200'>
+    <svg width='1000' height='820' viewBox='120 -50 400 300'>
         {/* <text x='100'>
             sin(
         </text> */}
