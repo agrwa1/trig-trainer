@@ -9,8 +9,8 @@ const Nav = () => {
         <div className="outside">
             <Link to="/" style={{textDecoration: 'none'}}><h1 className="header">TrigTrainer</h1></Link>
             <div>
-                <Link to="/" className="link"><Typography className='link'>Home</Typography ></Link>
-                <Link to="/test" className="link"><Typography className='link'>Test</Typography ></Link>
+                <Link to="/" className="link"><Typography className='link' style={{fontWeight: 'bold', fontSize: 18}}>Home</Typography ></Link>
+                <Link to="/test" className="link"><Typography className='link' style={{fontWeight: 'bold', fontSize: 18}}>Test</Typography ></Link>
                 {/* <Link to="/profile" className="link"><Typography className='link'>Profile</Typography ></Link> */}
                 {/* <Link to="/signup" className="link"><Typography className='link' >Sign Up/Log In</Typography ></Link> */}
             </div>
@@ -18,6 +18,7 @@ const Nav = () => {
         
     )
 }
+
 
 
 export default Nav

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Button, Typography } from '@mui/material'
+import { Button, Typography, Paper, Fade } from '@mui/material'
 
 // AnswerChoices component has to:
 // 1) Provide interface that allows users to select answer choices
@@ -47,7 +47,7 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, onCorrect
             {/* <h1>{correctAnswer}</h1> */}
 
         {/* This div is for all the Answer Buttons */}
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr 1fr', gridRowGap: 10, }}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr 1fr', gridRowGap: 10, gridColumnGap: 10}}>
                 {
                     allAnswers.map(ans => (
                         <AnswerButton val={ans} setAnswerChoice={setAnswerChoice} answerChoice={answerChoice} correct={correct} setCorrect={setCorrect} correctAnswer={correctAnswer}/>
@@ -63,7 +63,7 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, onCorrect
                 {
                     correct == null &&
                     <Button variant="contained" style={{width: 200, height: 100}} onClick={onSubmit} color='primary' >
-                        <Typography variant="h6">Submit</Typography>
+                        <Typography style={{fontSize: 24}}>Submit</Typography>
                     </Button>
                 }
             </div> 
@@ -121,9 +121,12 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
     return (
         // Make button look non crappy
         // make this look better
-        <Button onClick={onClick} style={styler(val)} color={clicked ? 'secondary' : "primary"} >
-            <Typography variant="h5" className="answer-choice-text" >{val}</Typography>
-        </Button>
+        <Fade in={true}>
+
+            <Button onClick={onClick} style={styler(val)} color={clicked ? 'secondary' : "primary"} >
+                <Typography className="answer-choice-text" style={{fontSize: 24}} >{val}</Typography>
+            </Button>
+        </Fade>
     )
 }
 
@@ -131,14 +134,18 @@ const styles = {
     active: {
         width: 200, 
         height: 100, 
-        background: 'midnightBlue', 
-        color: 'white'
+        background: '#1876d2', 
+        color: 'white',
+        
     },
     default: {
         width: 200, 
         height: 100, 
-        background: 'grey', 
-        color: 'white'
+        //background: 'grey', 
+        color: 'black',
+        border: '1px solid black',
+        fontSize: 36
+
     },
     correct: {
         width: 200, 

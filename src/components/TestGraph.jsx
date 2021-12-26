@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography, Fade } from '@material-ui/core'
 import './TestGraphCSS/TestGraph.css'
 import { findAnswer } from './../utils/findAnswer'
 
@@ -7,7 +7,7 @@ import { findAnswer } from './../utils/findAnswer'
 // import gsap and use
 // find and import graph library
 
-const TestGraph = ({stoppingDegree}) => {
+const TestGraph = ({stoppingDegree, references}) => {
     // make function able to have transitions
     // take props for right answer
 
@@ -26,7 +26,7 @@ const TestGraph = ({stoppingDegree}) => {
     return (
         <div>
             
-            <Draw degree ={stoppingDegree} />
+            <Draw degree ={stoppingDegree} references ={references} />
             {/* {
                 !stoppingDegree && <Draw degree={0} />
             }
@@ -109,7 +109,7 @@ const cos = value => Math.cos(value/180*Math.PI)
 
 
 
-const Draw = ({ degree }) => {
+const Draw = ({ degree, references }) => {
     return (
     <svg width='1000' height='820' viewBox='120 -50 400 300'>
         {/* <text x='100'>
@@ -153,27 +153,64 @@ const Draw = ({ degree }) => {
         />
 
         {/* This is the degree of the angle */}
+        
 
         {
-            (degree >= 90 && degree <= 270 )
+            // Quadrant 1
+            ((degree <= 90 && degree >= 0) && references)
             &&
-            <text 
-                x={cos(degree) * 100 } 
-                y={sin(degree) * 100}
-            >           
-                ({findAnswer(Math.cos(degree * Math.PI / 180).toFixed(2))}, {findAnswer(Math.sin(degree * Math.PI / 180).toFixed(2))})
-            </text>
+            <Fade in={references}>
+                <text style={{fontSize: 14}} 
+                    x={cos(degree) * 100} 
+                    y={sin(degree) * 100}
+                >           
+                    ({findAnswer(Math.cos(degree * Math.PI / 180).toFixed(2))}, {findAnswer(Math.sin(degree * Math.PI / 180).toFixed(2))})
+                </text>
+            </Fade>
+
         }
 
         {
-            (degree < 90 || degree > 270)  
+            // Quadrant 2
+            ((degree <= 180 && degree > 90) && references)
             &&
-            <text 
-                x={cos(degree) * 100} 
-                y={sin(degree) * 100}
-            >           
-                ({findAnswer(Math.cos(degree * Math.PI / 180).toFixed(2))}, {findAnswer(Math.sin(degree * Math.PI / 180).toFixed(2))})
-            </text>
+            <Fade in={references}>
+                <text style={{fontSize: 14}} 
+                    x={cos(degree) * 100 - 75} 
+                    y={sin(degree) * 100 - 10}
+                >           
+                    ({findAnswer(Math.cos(degree * Math.PI / 180).toFixed(2))}, {findAnswer(Math.sin(degree * Math.PI / 180).toFixed(2))})
+                </text>
+            </Fade>
+
+        }
+
+        {
+            // Quadrant 3
+            ((degree <= 270 && degree > 180) && references)
+            &&
+            <Fade in={references}>
+                <text style={{fontSize: 14}}
+                    x={cos(degree) * 100 - 75} 
+                    y={sin(degree) * 100 + 15}
+                >           
+                    ({findAnswer(Math.cos(degree * Math.PI / 180).toFixed(2))}, {findAnswer(Math.sin(degree * Math.PI / 180).toFixed(2))})
+                </text>
+            </Fade>
+        }
+
+        {
+            // Quadrant 4
+            ((degree <= 360 && degree > 270) && references)
+            &&
+            <Fade in={references}>
+                <text style={{fontSize: 14}}
+                    x={cos(degree) * 100} 
+                    y={sin(degree) * 100}
+                >           
+                    ({findAnswer(Math.cos(degree * Math.PI / 180).toFixed(2))}, {findAnswer(Math.sin(degree * Math.PI / 180).toFixed(2))})
+                </text>
+            </Fade>
         }
 
         </g>
