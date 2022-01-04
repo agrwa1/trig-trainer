@@ -1,0 +1,74 @@
+@import url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+@import url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+.nav {
+  width: 100vw;
+  max-height: 12vh;
+  background-color: #6a67ce;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.nav h1 {
+  font-size: 3em;
+}
+
+.nav .link-text {
+  color: white;
+  font-family: 'Poppins';
+}
+
+.nav .links .link-text {
+  font-size: 1.1em;
+  padding: 1em;
+  text-decoration: none;
+}
+
+.nav .links .link-text:hover {
+  font-weight: bold;
+}
+
+.screen {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins';
+}
+
+.test {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 2.5vh 2vw 2.5vh 2vw;
+  width: 96vw;
+  max-width: 96%;
+  max-height: 80vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.test .left {
+  margin: 0;
+}
+
+.test .left .container h2 {
+  font-weight: normal;
+  font-size: 3em;
+  margin: 0;
+}
+
+.test .left .container .settings {
+  font-family: 'Poppins';
+  color: #6a67ce;
+}
+
+.test .left .container .skip {
+  font-family: 'Poppins';
+  background-color: #6a67ce;
+}
+/*# sourceMappingURL=styles.css.map */

@@ -15,6 +15,8 @@ import { getAuth } from 'firebase/auth';
 import { firebaseApp } from './firebase';
 import Nav from './components/Nav';
 
+import './css/styles.css';
+
 function App() {
 	return (
 		<>
@@ -27,7 +29,9 @@ function App() {
 					<Route path='/learn'>
 						<Redirect to='/' />
 					</Route>
-					<Route path='/' component={HomeScreen} />
+					<Route path='/' component={HomeScreen}>
+						<Redirect to='/test' />
+					</Route>
 				</Switch>
 			</Router>
 		</>

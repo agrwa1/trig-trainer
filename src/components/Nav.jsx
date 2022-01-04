@@ -1,18 +1,20 @@
 import { Typography, Button, Container } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { Nav as NavItem, Navbar, NavDropdown } from 'react-bootstrap'
-import "./Nav.css"
+// import "./Nav.css"
 
 
 const Nav = () => {
     return (
-        <div className="outside">
-            <Link to="/" style={{textDecoration: 'none'}}><h1 className="header">TrigTrainer</h1></Link>
-            <div>
-                <Link to="/" className="link"><Typography className='link' style={{fontWeight: 'bold', fontSize: 18}}>Home</Typography ></Link>
-                <Link to="/test" className="link"><Typography className='link' style={{fontWeight: 'bold', fontSize: 18}}>Test</Typography ></Link>
-                {/* <Link to="/profile" className="link"><Typography className='link'>Profile</Typography ></Link> */}
-                {/* <Link to="/signup" className="link"><Typography className='link' >Sign Up/Log In</Typography ></Link> */}
+        <div className="nav">
+            <Link to="/" className="link" style={{textDecoration: 'none'}}>
+                <h1 className="link-text" style={{paddingTop: '.2em', paddingBottom: '.2em'}} >TrigTrainer</h1>
+            </Link>
+            <div className="links">
+                {/* <Link to="/" ><a className='link-text'>Home</a ></Link> */}
+                <Link to="/test" ><a className='link-text'>Test</a ></Link>
+                <Link to="/profile" ><a className='link-text'>Profile</a ></Link>
+                <Link to="/signup" ><a className='link-text' >Sign Up/Log In</a ></Link>
             </div>
         </div>
         

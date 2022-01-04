@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Droid+Sans+Mono");
+@import url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 body {
   background-color: #fff;
   margin: 0;
@@ -6,7 +7,7 @@ body {
 }
 
 svg {
-  stroke: #1876d2;
+  stroke: #6a67ce;
   fill: transparent;
   stroke-width: 8px;
   max-width: 100%;
@@ -22,8 +23,8 @@ svg {
 text {
   font-family: 'Droid Sans Mono', monospace;
   font-size: 20px;
-  fill: #1876d2;
-  stroke: #1876d2;
+  fill: #6a67ce;
+  stroke: #6a67ce;
   stroke-width: 1px;
 }
 /*# sourceMappingURL=TestGraph.css.map */

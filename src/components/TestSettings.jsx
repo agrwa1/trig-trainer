@@ -7,6 +7,7 @@ import { Typography, Paper, Button, Switch, FormGroup, FormControlLabel, Checkbo
 
 const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes, setFilteredOutTypes, filteredOutQuadrants, setFilteredOutQuadrants, radians, setRadians}) => {
 
+    const color = '#6a67ce'
     const onTypeClick = (val) => {
         // if filteredOutTypes[val] is true, set to false. 
         // else set "" to true
@@ -53,11 +54,11 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
 
                     <div style={{display: 'flex'}}>
                         <Typography variant="h5">References: </Typography>
-                        <Switch checked={references} onClick={() => setReferences( references ? false : true )} />     
+                        <Switch checked={references} style={{color: color}} onClick={() => setReferences( references ? false : true )} />     
                     </div>
                     <div style={{display: 'flex'}}>
                         <Typography variant="h5">Radians: </Typography>
-                        <Switch checked={radians} onClick={() => setRadians( radians ? false : true )} />     
+                        <Switch checked={radians} style={{color: color}} onClick={() => setRadians( radians ? false : true )} />     
                     </div>
                 </div>
 
@@ -77,8 +78,8 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
                     </FormGroup>
                 </div>
                 
-                <Button style={{width: '100%'}} variant="text" onClick={resetAll}>Reset All</Button>
-                <Button variant="contained" onClick={() => setSettings(false)}>Exit</Button>
+                <Button style={{width: '100%', color: color}} variant="text" onClick={resetAll}>Reset All</Button>
+                <Button variant="contained" style={{ backgroundColor: color }}onClick={() => setSettings(false)}>Exit</Button>
             </Paper>
         </div>
     )

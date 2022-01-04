@@ -417,5 +417,3 @@ export const problemSet = [
 		degree: 360,
 	},
 ];
-
-console.log(problemSet[Math.floor(Math.random() * problemSet.length)]);

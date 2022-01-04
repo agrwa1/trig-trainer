@@ -13,6 +13,7 @@ import identifyAngles from '../utils/identifyAngles'
 //  - create a settings screen for users to adjust what problem they want to work on
 //  - Make the next problem function into a doubly linked list so users can go back to review answers
 //  - Make sure the same question doesn't get repeated
+//  - add footer and make App.js styling to Maxwidth: 100vw and maxHeight: 100vh
 
 
 const TestScreen = () => {
@@ -27,6 +28,8 @@ const TestScreen = () => {
     const [filteredOutTypes, setFilteredOutTypes] = useState({sin: false, cos: false, tan: false})
     const [filteredOutQuadrants, setFilteredOutQuadrants] = useState({q1: false, q2: false, q3: false, q4: false})
     const [radians, setRadians] = useState(true)
+
+    
 
     // make function to change streak and pass to answer choices
     
@@ -129,9 +132,9 @@ const TestScreen = () => {
     useEffect(() => {
         if (!problem.name) {
             getProblem()
-            console.log(problem.type)
-            console.log(typeof problem.degree)
-            console.log(identifyAngles('0'))
+            // console.log(problem.type)
+            // console.log(typeof problem.degree)
+            // console.log(identifyAngles('0'))
             // console.log(auth)
         }
         // setReload(num => num + 1) // forcing re render -- very broken .causes thousands oferrors
@@ -140,9 +143,9 @@ const TestScreen = () => {
 
     return (
 
-        <div style={{display: 'flex', maxHeight: '80vh', maxWidth: '100vw', overflowY: 'hidden', overflowX: 'hidden', margin: '2em 0 2em 2em' }}>
+        <div className="test screen" >
             {/* graph/problem section (left) */}
-            <div style={{width: '45%', padding: '1rem' }}>
+            <div className="left" >
                 <div className="container"> 
 
                     <div>
@@ -154,7 +157,7 @@ const TestScreen = () => {
                         } */}
                     </div> 
                     <div style={{display: 'flex'}}>
-                        <Button variant="text" onClick={() => setSettings(true)}>
+                        <Button className="settings" variant="text" onClick={() => setSettings(true)}>
                             Settings
                         </Button>
                         <Backdrop   
@@ -164,7 +167,7 @@ const TestScreen = () => {
                         >
                             <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants} radians={radians} setRadians={setRadians}/>
                         </Backdrop>
-                        <Button variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
+                        <Button className="skip" variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
                         {/* <div>
 
 {
@@ -176,14 +179,16 @@ const TestScreen = () => {
                         
                     </div>
                     {
+                        // degrees mode
                         !radians &&
-                        <Typography variant="h2">What is {problem.type}({problem.degree})?</Typography> 
+                        <h2>What is {problem.type}({problem.degree})?</h2> 
 
                     }
                     {
+                        // radians mode
                         radians &&
                         <div>
-                            <Typography variant="h2">What is {problem.type}({identifyAngles(problem.degree)})?</Typography> 
+                            <h2>What is {problem.type}({identifyAngles(problem.degree)})?</h2> 
                         </div>
                     }
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -192,10 +197,11 @@ const TestScreen = () => {
                 </div>
             </div>
 
-            {/* This is the right side of the screen with the answer buttons */}
+            {/* This is the right side of the screen with the answer Buttons */}
             <div style={{width: '45%', marginRight: '6em' }}>
                 <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer} onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} setCorrect={setCorrect}  correct={correct} />
             </div>
+            
         </div>
     )
 }

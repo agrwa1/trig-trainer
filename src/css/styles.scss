@@ -1,0 +1,80 @@
+@import url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff');
+@import url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+$primary: #fc636b;
+$secondary: #6a67ce;
+
+// nav styling
+.nav {
+	width: 100vw;
+	max-height: 12vh;
+	background-color: $secondary;
+
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	h1 {
+		font-size: 3em;
+	}
+
+	.link-text {
+		color: white;
+		font-family: 'Poppins';
+	}
+
+	.links {
+		.link-text {
+			font-size: 1.1em;
+			padding: 1em;
+			text-decoration: none;
+		}
+		.link-text:hover {
+			font-weight: bold;
+		}
+	}
+}
+
+// all screens
+.screen {
+	// this comes from total - nav
+	padding: 0;
+	margin: 0;
+
+	font-family: 'Poppins';
+}
+
+// style={{display: 'flex', maxHeight: '80vh', maxWidth: '100vw', overflowY: 'hidden', overflowX: 'hidden', margin: '2em 0 2em 2em' }}
+.test {
+	display: flex;
+	margin: 2.5vh 2vw 2.5vh 2vw;
+	width: 96vw;
+	max-width: 96%;
+	max-height: 80vh;
+
+	overflow-x: hidden;
+	overflow-y: hidden;
+
+	//style={{width: '45%', padding: '1rem' }}
+	.left {
+		margin: 0;
+
+		.container {
+			h2 {
+				font-weight: normal;
+				font-size: 3em;
+				margin: 0;
+			}
+
+			.settings {
+				font-family: 'Poppins';
+				color: $secondary;
+			}
+
+			.skip {
+				font-family: 'Poppins';
+				background-color: $secondary;
+			}
+		}
+	}
+}

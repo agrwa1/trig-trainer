@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Button, Typography, Paper, Fade } from '@mui/material'
 
+
 // AnswerChoices component has to:
 // 1) Provide interface that allows users to select answer choices
 // 2) Take the following as props:
@@ -62,7 +63,7 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, onCorrect
                 
                 {
                     correct == null &&
-                    <Button variant="contained" style={{width: 200, height: 100}} onClick={onSubmit} color='primary' >
+                    <Button variant="contained" style={{width: 200, height: 100, backgroundColor: '#6a67ce'}} onClick={onSubmit} >
                         <Typography style={{fontSize: 24}}>Submit</Typography>
                     </Button>
                 }
@@ -121,7 +122,7 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
     return (
         // Make button look non crappy
         // make this look better
-        <Fade in={true}>
+        <Fade in={true} className="button">
 
             <Button onClick={onClick} style={styler(val)} color={clicked ? 'secondary' : "primary"} >
                 <Typography className="answer-choice-text" style={{fontSize: 24}} >{val}</Typography>
@@ -134,7 +135,7 @@ const styles = {
     active: {
         width: 200, 
         height: 100, 
-        background: '#1876d2', 
+        background: '#6a67ce', 
         color: 'white',
         
     },
