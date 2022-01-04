@@ -4,7 +4,7 @@
 .nav {
   width: 100vw;
   max-height: 12vh;
-  background-color: #6a67ce;
+  background-color: #fc636b;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -64,11 +64,82 @@
 
 .test .left .container .settings {
   font-family: 'Poppins';
-  color: #6a67ce;
+  color: #fc636b;
 }
 
 .test .left .container .skip {
   font-family: 'Poppins';
-  background-color: #6a67ce;
+  background-color: #fc636b;
+}
+
+.profile {
+  margin: 2.5vh 2vw 2.5vh 2vw;
+  width: 96vw;
+  max-width: 96%;
+  max-height: 80vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profile .header {
+  font-family: 'Poppins';
+}
+
+.profile .note {
+  font-family: 'Poppins';
+}
+
+.profile .container .buttons {
+  margin-top: 0.7em;
+}
+
+.profile .container .test-link {
+  background-color: #fc636b;
+  color: white;
+  text-decoration: none;
+}
+
+.profile .container .sign-out {
+  background-color: #fc636b;
+  color: white;
+}
+
+.signup {
+  margin: 2.5vh 2vw 2.5vh 2vw;
+  width: 96vw;
+  max-width: 96%;
+  max-height: 80vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.signup .header {
+  font-family: 'Poppins';
+}
+
+.signup .note {
+  font-family: 'Poppins';
+}
+
+.signup .login-button {
+  font-family: 'Poppins';
+  font-size: 1.1em;
+  color: white;
+  background-color: #fc636b;
+  margin-top: 0.7em;
 }
 /*# sourceMappingURL=styles.css.map */

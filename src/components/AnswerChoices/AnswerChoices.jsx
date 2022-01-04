@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { Button, Typography, Paper, Fade } from '@mui/material'
+import React, {useState} from 'react'
+import { Button, Typography, Fade } from '@mui/material'
 
 
 // AnswerChoices component has to:
@@ -11,8 +11,9 @@ import { Button, Typography, Paper, Fade } from '@mui/material'
 // 4) Accept the correct answer as props and handle submittion of answer
 
 const allAnswers = ['-√3/2', '-√2/2', '-1/2', '-1', '-√3', '-1/√3', '1/√3', '√3', '1', '1/2', '√2/2', '√3/2', '0', 'undefined']
+const color = '#fc636b'
 
-const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, onCorrect, onWrong, correct, setCorrect, getNewProblem }) => {
+const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, setCorrect, getNewProblem }) => {
     // correctAnswer
     // AnswerChoice
     // setAnswerChoice
@@ -22,17 +23,16 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, onCorrect
     // BUGS:
     // after submittion, user can still click other options and resubmit to get question right
 
-    // if ans == AnswerChoice, then active, if not then default
+    // if ans ==== AnswerChoice, then active, if not then default
 
     const onSubmit = () => {
         // function should check if answer is correct and call appropriate functions
-        if (correctAnswer == answerChoice ) {
+        if (correctAnswer === answerChoice ) {
             setCorrect(true)
-            onCorrect()
+            
         }
         else {
             setCorrect(false)
-            onWrong()
         }
          
     }
@@ -55,15 +55,15 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, onCorrect
                     ))
                 }
                 {
-                    (correct == true || correct == false) &&
+                    (correct === true || correct === false) &&
                     <Button variant="contained" style={{width: 200, height: 100}} onClick={getNewProblem} color='success' >
                         <Typography variant="h6">Next Question</Typography>
                     </Button>
                 }
                 
                 {
-                    correct == null &&
-                    <Button variant="contained" style={{width: 200, height: 100, backgroundColor: '#6a67ce'}} onClick={onSubmit} >
+                    correct === null &&
+                    <Button variant="contained" style={{width: 200, height: 100, backgroundColor: color}} onClick={onSubmit} >
                         <Typography style={{fontSize: 24}}>Submit</Typography>
                     </Button>
                 }
@@ -85,7 +85,7 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
     const onClick = () => {
         // if statement -> return gets rid of bug where:
         //      after submitting answer, user can still click on answer choices and they will appear red or green
-        if (correct == true || correct == false ) {
+        if (correct === true || correct === false ) {
             return
         }
         setAnswerChoice(val)
@@ -100,19 +100,19 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
     }
 
     const styler = (val) => {
-        // if val==answer choice -> styles.active
-        // if correct == true || false && correctAnswer == val. This is to make a separate answer button correct if the answer wrong
+        // if val===answer choice -> styles.active
+        // if correct === true || false && correctAnswer === val. This is to make a separate answer button correct if the answer wrong
         // if correct and val=answer choice -> styles.correct
-        // if correct == false and val == answer choice -> styles.wrong
+        // if correct === false and val === answer choice -> styles.wrong
         // else styles.default
 
-        if(val == answerChoice && correct == true) {
+        if(val === answerChoice && correct === true) {
             return styles.correct
-        } else if ((correct == true || correct == false) && correctAnswer == val) {
+        } else if ((correct === true || correct === false) && correctAnswer === val) {
             return styles.correct
-        } else if (val == answerChoice && correct == false) {
+        } else if (val === answerChoice && correct === false) {
             return styles.wrong
-        } else if (val == answerChoice) {
+        } else if (val === answerChoice) {
             return styles.active
         } else {
             return styles.default
@@ -135,7 +135,7 @@ const styles = {
     active: {
         width: 200, 
         height: 100, 
-        background: '#6a67ce', 
+        background: color, 
         color: 'white',
         
     },

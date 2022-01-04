@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import HomeScreen from './screens/HomeScreen';
 import TestScreen from './screens/TestScreen';
@@ -8,11 +8,8 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Link,
 	Redirect,
 } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
-import { firebaseApp } from './firebase';
 import Nav from './components/Nav';
 
 import './css/styles.css';

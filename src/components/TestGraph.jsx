@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Typography, Fade } from '@material-ui/core'
+import React, { useEffect } from 'react'
+import { Fade } from '@material-ui/core'
 import './TestGraphCSS/TestGraph.css'
 import { findAnswer } from './../utils/findAnswer'
 
@@ -10,9 +10,6 @@ import { findAnswer } from './../utils/findAnswer'
 const TestGraph = ({stoppingDegree, references}) => {
     // make function able to have transitions
     // take props for right answer
-
-
-    const [degree, setDegree] = useState(0)
 
     useEffect(() => {
         // if degree is less than stopping degree ==> keep drawing
@@ -26,7 +23,7 @@ const TestGraph = ({stoppingDegree, references}) => {
     return (
         <div>
             
-            <Draw degree ={stoppingDegree} references ={references} />
+            <Draw degree={stoppingDegree} references ={references} />
             {/* {
                 !stoppingDegree && <Draw degree={0} />
             }
@@ -50,59 +47,59 @@ const TestGraph = ({stoppingDegree, references}) => {
     
 }
 
-const Sine = ({stoppingDegree}) => {
-    const [degree, setDegree] = useState(0)
+// const Sine = ({stoppingDegree}) => {
+//     const [degree, setDegree] = useState(0)
 
-    const lastTimeRef = useRef(null)
-    const frameRef = useRef()
+//     const lastTimeRef = useRef(null)
+//     const frameRef = useRef()
 
-    const animate = time => {
-        if (lastTimeRef.current != null) {
-          const delta = (time - lastTimeRef.current) * 0.07; // change speed
-          // Because of the unfortunate side effect of the effect's 
-          // second parameter we cannot refer to degree as simple
-          // as you might would in an other situation. Luckily for 
-          // us though the setter function can accept a function if 
-          // the state is needed to calcualte the next value and
-          // that function will always have the latest value of the state
-          if (degree <= stoppingDegree) {
-            setDegree(previousDegree => (previousDegree + delta) % 360);
-          } else {
-            setDegree(180)
-          }
+//     const animate = time => {
+//         if (lastTimeRef.current != null) {
+//           const delta = (time - lastTimeRef.current) * 0.07; // change speed
+//           // Because of the unfortunate side effect of the effect's 
+//           // second parameter we cannot refer to degree as simple
+//           // as you might would in an other situation. Luckily for 
+//           // us though the setter function can accept a function if 
+//           // the state is needed to calcualte the next value and
+//           // that function will always have the latest value of the state
+//           if (degree <= stoppingDegree) {
+//             setDegree(previousDegree => (previousDegree + delta) % 360);
+//           } else {
+//             setDegree(180)
+//           }
           
-        }
-        lastTimeRef.current = time;
-        frameRef.current = requestAnimationFrame(animate);
-    }
+//         }
+//         lastTimeRef.current = time;
+//         frameRef.current = requestAnimationFrame(animate);
+//     }
 
-    useEffect(() => {
-        if (true){
-        frameRef.current = requestAnimationFrame(animate);
-    }
-        return () => {
-            cancelAnimationFrame(frameRef.current)
-        };
-    }, []);
+//     useEffect(() => {
+//         if (true){
+//         frameRef.current = requestAnimationFrame(animate);
+//     }
+//         return () => {
+//             cancelAnimationFrame(frameRef.current)
+//         };
+//     }, []);
 
-    // add event listener that looks for when degree = stopping degree. Stop movement when this happens
-    // when stopping degree changes, reset degree
+//     // add event listener that looks for when degree = stopping degree. Stop movement when this happens
+//     // when stopping degree changes, reset degree
 
-    return (
-        <div>
+//     return (
+//         <div>
 
-            {/* {
-                degree <= stoppingDegree
-                &&
-            <Draw degree={degree}/>
-            } */}
-            {
-                degree <= stoppingDegree ? <Draw degree={degree}/> : <Draw degree={0} /> 
-            }
-        </div>
-    )
+//             {/* {
+//                 degree <= stoppingDegree
+//                 &&
+//             <Draw degree={degree}/>
+//             } */}
+//             {
+//                 degree <= stoppingDegree ? <Draw degree={degree}/> : <Draw degree={0} /> 
+//             }
+//         </div>
+//     )
 
-}
+// }
 
 const sin = value => -Math.sin(value/180*Math.PI)
 const cos = value => Math.cos(value/180*Math.PI)
@@ -227,7 +224,7 @@ const Draw = ({ degree, references }) => {
 
 export default TestGraph;
 
-const sinWave = {
+// const sinWave = {
 
     //  {/* This is the right side block with the sine wave */}
     //  <g transform='translate(560 0)'>
@@ -254,4 +251,4 @@ const sinWave = {
     //      {parseFloat(Math.sin(degree/180*Math.PI)).toFixed(2)}
     //  </text>
     //  </g> 
-}
+// }

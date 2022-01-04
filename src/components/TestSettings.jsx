@@ -7,7 +7,7 @@ import { Typography, Paper, Button, Switch, FormGroup, FormControlLabel, Checkbo
 
 const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes, setFilteredOutTypes, filteredOutQuadrants, setFilteredOutQuadrants, radians, setRadians}) => {
 
-    const color = '#6a67ce'
+    const color = '#fc636b'
     const onTypeClick = (val) => {
         // if filteredOutTypes[val] is true, set to false. 
         // else set "" to true

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Typography, Button, Switch, Backdrop } from '@mui/material'
+import { Button, Backdrop } from '@mui/material'
+// import { auth } from '../firebase'
 
 import TestGraph from './../components/TestGraph'
 import {problemSet} from './../utils/problems'
@@ -18,7 +19,7 @@ import identifyAngles from '../utils/identifyAngles'
 
 const TestScreen = () => {
     // const [reload, setReload] = useState(0) // this line is only to reload the page on auth change
-    const [streak, setStreak] = useState(0)
+    // const [streak, setStreak] = useState(0)
     const [problem, setProblem] = useState({})
     const [oldProblem, setOldProblem] = useState({})
     const [finalAnswerChoice, setFinalAnswerChoice] = useState('')
@@ -36,27 +37,27 @@ const TestScreen = () => {
     // implement auth and redirect
     // set state for type of problem
 
-    const handleGotProblemCorrect = () => {
-        setStreak(streak => streak + 1)
-        // set streak
-        // check if user is logged in
-        // if user is logged in, then:
-        // add correct question to database and update profile
+    // const handleGotProblemCorrect = () => {
+    //     setStreak(streak => streak + 1)
+    //     // set streak
+    //     // check if user is logged in
+    //     // if user is logged in, then:
+    //     // add correct question to database and update profile
 
-        // for adding info to database
-        // switch(problem.type) {
-        //     case 'sin':
-        // }
+    //     // for adding info to database
+    //     // switch(problem.type) {
+    //     //     case 'sin':
+    //     // }
 
-        // setStreak(streak[problem.type]++)
+    //     // setStreak(streak[problem.type]++)
 
-        // if (user is authenticated) {
-        //     add problem to database
-        // }
-    }
-    const handleGotProblemWrong = () => {
-        setStreak(0)
-    }
+    //     // if (user is authenticated) {
+    //     //     add problem to database
+    //     // }
+    // }
+    // const handleGotProblemWrong = () => {
+    //     setStreak(0)
+    // }
 
     const getProblem = () => {
         setOldProblem(problem) // this sets the old problem to the current problem
@@ -97,32 +98,32 @@ const TestScreen = () => {
         // if there are any type preferences
         if (filteredOutTypes.sin || filteredOutTypes.cos || filteredOutTypes.tan) {
             if (filteredOutTypes.sin) {
-                if (type == 'sin') return false
+                if (type === 'sin') return false
             }
             if (filteredOutTypes.cos) {
-                if (type == 'cos') return false
+                if (type === 'cos') return false
             }
             if (filteredOutTypes.tan) {
-                if (type == 'tan') return false
+                if (type === 'tan') return false
             }
         }
 
         if (filteredOutQuadrants.q1 || filteredOutQuadrants.q2 || filteredOutQuadrants.q3 || filteredOutQuadrants.q4) {
             if (filteredOutQuadrants.q1) {
-                if (quadrant == '1') return false 
+                if (quadrant === '1') return false 
             }
             if (filteredOutQuadrants.q2) {
-                if (quadrant == '2') return false 
+                if (quadrant === '2') return false 
             }
             if (filteredOutQuadrants.q3) {
-                if (quadrant == '3') return false 
+                if (quadrant === '3') return false 
             }
             if (filteredOutQuadrants.q4) {
-                if (quadrant == '4') return false 
+                if (quadrant === '4') return false 
             }
         }
 
-        if (oldProblem.name == random.name) { // if new problem is the same as the old problem
+        if (oldProblem.name === random.name) { // if new problem is the same as the old problem
             return false
         }
 
@@ -199,7 +200,12 @@ const TestScreen = () => {
 
             {/* This is the right side of the screen with the answer Buttons */}
             <div style={{width: '45%', marginRight: '6em' }}>
-                <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer} onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} setCorrect={setCorrect}  correct={correct} />
+                {/* {
+                    !auth.currentUser &&
+                    <Typography variant="h4">Please create an account</Typography>
+                } */}
+                <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer}  setCorrect={setCorrect}  correct={correct} />
+                {/* after figuring out handleProblemRight and handleProblemWrong, can add arguments: onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} */}
             </div>
             
         </div>

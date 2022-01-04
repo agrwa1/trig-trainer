@@ -12,6 +12,7 @@ const identifyAngles = (angle) => {
 			break;
 		case 60:
 			answer = 'π/3';
+			break;
 		case 90:
 			answer = 'π/2';
 			break;

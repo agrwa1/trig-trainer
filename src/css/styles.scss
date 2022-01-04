@@ -3,13 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 $primary: #fc636b;
-$secondary: #6a67ce;
 
 // nav styling
 .nav {
 	width: 100vw;
 	max-height: 12vh;
-	background-color: $secondary;
+	background-color: $primary;
 
 	display: flex;
 	justify-content: space-around;
@@ -68,13 +67,74 @@ $secondary: #6a67ce;
 
 			.settings {
 				font-family: 'Poppins';
-				color: $secondary;
+				color: $primary;
 			}
 
 			.skip {
 				font-family: 'Poppins';
-				background-color: $secondary;
+				background-color: $primary;
 			}
 		}
+	}
+}
+
+.profile {
+	margin: 2.5vh 2vw 2.5vh 2vw;
+	width: 96vw;
+	max-width: 96%;
+	max-height: 80vh;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.header {
+		font-family: 'Poppins';
+	}
+
+	.note {
+		font-family: 'Poppins';
+	}
+
+	.container {
+		.buttons {
+			margin-top: 0.7em;
+		}
+		.test-link {
+			background-color: $primary;
+			color: white;
+			text-decoration: none;
+		}
+		.sign-out {
+			background-color: $primary;
+			color: white;
+		}
+	}
+}
+
+.signup {
+	margin: 2.5vh 2vw 2.5vh 2vw;
+	width: 96vw;
+	max-width: 96%;
+	max-height: 80vh;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.header {
+		font-family: 'Poppins';
+	}
+
+	.note {
+		font-family: 'Poppins';
+	}
+
+	.login-button {
+		font-family: 'Poppins';
+		font-size: 1.1em;
+		color: white;
+		background-color: $primary;
+		margin-top: 0.7em;
 	}
 }
