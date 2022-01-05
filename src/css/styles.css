@@ -44,12 +44,12 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 2.5vh 2vw 2.5vh 2vw;
-  width: 96vw;
-  max-width: 96%;
-  max-height: 80vh;
+  margin: auto;
+  margin-top: 1em;
+  width: 90vw;
+  max-width: 90%;
+  height: 70vh;
   overflow-x: hidden;
-  overflow-y: hidden;
 }
 
 .test .left {

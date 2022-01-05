@@ -46,13 +46,14 @@ $primary: #fc636b;
 // style={{display: 'flex', maxHeight: '80vh', maxWidth: '100vw', overflowY: 'hidden', overflowX: 'hidden', margin: '2em 0 2em 2em' }}
 .test {
 	display: flex;
-	margin: 2.5vh 2vw 2.5vh 2vw;
-	width: 96vw;
-	max-width: 96%;
-	max-height: 80vh;
+	margin: auto;
+	margin-top: 1em;
+	width: 90vw;
+	max-width: 90%;
+	height: 70vh;
 
 	overflow-x: hidden;
-	overflow-y: hidden;
+	// overflow-y: hidden;
 
 	//style={{width: '45%', padding: '1rem' }}
 	.left {

@@ -11,10 +11,11 @@ import identifyAngles from '../utils/identifyAngles'
 // import { getAuth } from 'firebase/auth' // keep this for rerouting?
 
 // IDEAS:
-//  - create a settings screen for users to adjust what problem they want to work on
 //  - Make the next problem function into a doubly linked list so users can go back to review answers
 //  - Make sure the same question doesn't get repeated
 //  - add footer and make App.js styling to Maxwidth: 100vw and maxHeight: 100vh
+// ** adaptive algorithm. record students correct vs incorrect.
+// -- make teacher class and let students sign up for a teachers class. teachers can see students progress.
 
 
 const TestScreen = () => {
@@ -29,6 +30,7 @@ const TestScreen = () => {
     const [filteredOutTypes, setFilteredOutTypes] = useState({sin: false, cos: false, tan: false})
     const [filteredOutQuadrants, setFilteredOutQuadrants] = useState({q1: false, q2: false, q3: false, q4: false})
     const [radians, setRadians] = useState(true)
+    const [showGraph, setShowGraph] = useState(true)
 
     
 
@@ -166,7 +168,7 @@ const TestScreen = () => {
                             open={settings}
                              
                         >
-                            <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants} radians={radians} setRadians={setRadians}/>
+                            <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants} radians={radians} setRadians={setRadians} showGraph={showGraph} setShowGraph={setShowGraph}/>
                         </Backdrop>
                         <Button className="skip" variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
                         {/* <div>
@@ -193,7 +195,13 @@ const TestScreen = () => {
                         </div>
                     }
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <TestGraph stoppingDegree={problem.degree} references={references} /> 
+
+                        {
+                            showGraph &&
+                            <TestGraph stoppingDegree={problem.degree} references={references} /> 
+
+                        }
+
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@ import { Typography, Paper, Button, Switch, FormGroup, FormControlLabel, Checkbo
 //  - if user selects none of the options, send an alert that makes them choose
 //      - or just auto make it reset to all
 
-const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes, setFilteredOutTypes, filteredOutQuadrants, setFilteredOutQuadrants, radians, setRadians}) => {
+const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes, setFilteredOutTypes, filteredOutQuadrants, setFilteredOutQuadrants, radians, setRadians, showGraph, setShowGraph}) => {
 
     const color = '#fc636b'
     const onTypeClick = (val) => {
@@ -40,6 +40,7 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
         })
         setReferences(false)
         setRadians(true)
+        setShowGraph(true)
     }
 
     return(
@@ -55,6 +56,10 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
                     <div style={{display: 'flex'}}>
                         <Typography variant="h5">References: </Typography>
                         <Switch checked={references} style={{color: color}} onClick={() => setReferences( references ? false : true )} />     
+                    </div>
+                    <div style={{display: 'flex'}}>
+                        <Typography variant="h5">Graph: </Typography>
+                        <Switch checked={showGraph} style={{color: color}} onClick={() => setShowGraph( showGraph ? false : true )} />     
                     </div>
                     <div style={{display: 'flex'}}>
                         <Typography variant="h5">Radians: </Typography>
