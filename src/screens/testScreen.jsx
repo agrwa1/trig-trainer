@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Backdrop } from '@mui/material'
+import { Button, Backdrop, Typography } from '@mui/material'
 // import { auth } from '../firebase'
 
 import TestGraph from './../components/TestGraph'
@@ -16,6 +16,10 @@ import identifyAngles from '../utils/identifyAngles'
 //  - add footer and make App.js styling to Maxwidth: 100vw and maxHeight: 100vh
 // ** adaptive algorithm. record students correct vs incorrect.
 // -- make teacher class and let students sign up for a teachers class. teachers can see students progress.
+// -- animations
+// -- make custom svg with better responsive design
+// -- add home page for students to learn trig
+// -- send "auth" variable to Nav.js so it can render EITHER login/signup OR profile
 
 
 const TestScreen = () => {
@@ -30,7 +34,7 @@ const TestScreen = () => {
     const [filteredOutTypes, setFilteredOutTypes] = useState({sin: false, cos: false, tan: false})
     const [filteredOutQuadrants, setFilteredOutQuadrants] = useState({q1: false, q2: false, q3: false, q4: false})
     const [radians, setRadians] = useState(true)
-    const [showGraph, setShowGraph] = useState(true)
+    const [showGraph, setShowGraph] = useState(false)
 
     
 
@@ -146,75 +150,88 @@ const TestScreen = () => {
 
     return (
 
-        <div className="test screen" >
+        <div className="test">
+            <div className="small-screen-warning">
+                <Typography variant="h1" className="warning">Please view TrigTrainer on a larger screen</Typography>
+            </div>
             {/* graph/problem section (left) */}
             <div className="left" >
-                <div className="container"> 
+                <div className="container" > 
 
-                    <div>
+                    {/* <div>
 
                         {/* Can make streak simpler. For every question right, add a flame */}
                         {/* {
                             streak >= 2 &&
                             <Typography variant="h4">{streak} in a row 🔥🔥.</Typography> 
                         } */}
-                    </div> 
-                    <div style={{display: 'flex'}}>
+                    {/* </div>  */}
+
+                    <div className="util-buttons">
                         <Button className="settings" variant="text" onClick={() => setSettings(true)}>
                             Settings
                         </Button>
                         <Backdrop   
                             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                            open={settings}
-                             
+                            open={settings}                             
                         >
                             <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants} radians={radians} setRadians={setRadians} showGraph={showGraph} setShowGraph={setShowGraph}/>
                         </Backdrop>
                         <Button className="skip" variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
                         {/* <div>
 
-{
-    (correct == true || correct == false)
-    &&
-    <Typography variant="h5" style={{marginLeft: '1em'}}>Answer: {problem.answer}</Typography>   
-}  
-</div> */}
+                        {
+                            (correct == true || correct == false)
+                            &&
+                            <Typography variant="h5" style={{marginLeft: '1em'}}>Answer: {problem.answer}</Typography>   
+                        }  
+                        </div> */}
                         
                     </div>
+                    
+
+                    <div className="problem-questions">
                     {
                         // degrees mode
                         !radians &&
-                        <h2>What is {problem.type}({problem.degree})?</h2> 
+                        <div>
+                            <h2 className="problem-q">What is {problem.type}({problem.degree})?</h2> 
+                        </div>
 
                     }
                     {
                         // radians mode
                         radians &&
                         <div>
-                            <h2>What is {problem.type}({identifyAngles(problem.degree)})?</h2> 
+                            <h2 className="problem-q">What is {problem.type}({identifyAngles(problem.degree)})?</h2> 
                         </div>
                     }
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    </div>
 
-                        {
-                            showGraph &&
-                            <TestGraph stoppingDegree={problem.degree} references={references} /> 
 
-                        }
-
+                    <div style={{width: '45%', margin:0, marginRight: '6em' }}>
+                        {/* {
+                            !auth.currentUser &&
+                            <Typography variant="h4">Please create an account</Typography>
+                        } */}
+                        <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer}  setCorrect={setCorrect}  correct={correct} />
+                        {/* after figuring out handleProblemRight and handleProblemWrong, can add arguments: onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} */}
                     </div>
                 </div>
             </div>
+                <div className="right">
+                    <div className="container">
+                        {
+                            showGraph &&
+                            <div className="graph-container">
+                                <TestGraph stoppingDegree={problem.degree} references={references} className="graph"/> 
+                            </div>
+                        }
+                    </div>
+                </div>
 
             {/* This is the right side of the screen with the answer Buttons */}
-            <div style={{width: '45%', marginRight: '6em' }}>
-                {/* {
-                    !auth.currentUser &&
-                    <Typography variant="h4">Please create an account</Typography>
-                } */}
-                <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer}  setCorrect={setCorrect}  correct={correct} />
-                {/* after figuring out handleProblemRight and handleProblemWrong, can add arguments: onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} */}
-            </div>
+
             
         </div>
     )

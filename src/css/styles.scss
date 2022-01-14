@@ -3,6 +3,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 $primary: #fc636b;
+$secondary: #ffa701;
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Poppins';
+}
 
 // nav styling
 .nav {
@@ -34,46 +45,103 @@ $primary: #fc636b;
 	}
 }
 
-// all screens
-.screen {
-	// this comes from total - nav
-	padding: 0;
-	margin: 0;
+.test {
+	margin-top: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow-y: hidden;
+	max-height: 100vh;
+	overflow-y: scroll;
 
-	font-family: 'Poppins';
+	.small-screen-warning {
+		display: none;
+	}
+
+	.left {
+		.container {
+			.util-buttons {
+				display: flex;
+				.settings {
+					background: white;
+					color: $primary;
+				}
+				.skip {
+					background: $primary;
+					color: white;
+				}
+			}
+			.problem-questions {
+				.problem-q {
+					font-family: 'Poppins';
+					font-size: clamp(2em, 2.5em, 4em);
+					font-weight: bold; // default bold bc h2
+					margin: 0;
+					padding: 0;
+				}
+			}
+		}
+	}
+
+	.right {
+		.container {
+			.graph-container {
+				display: flex;
+				justify-content: flex-start;
+				align-items: flex-start;
+				margin-bottom: 5em;
+				margin-top: 5em;
+				max-height: 40vh;
+				.graph {
+					max-width: 70%;
+					width: 4em;
+				}
+			}
+		}
+	}
 }
 
-// style={{display: 'flex', maxHeight: '80vh', maxWidth: '100vw', overflowY: 'hidden', overflowX: 'hidden', margin: '2em 0 2em 2em' }}
-.test {
-	display: flex;
-	margin: auto;
-	margin-top: 1em;
-	width: 90vw;
-	max-width: 90%;
-	height: 70vh;
+.answer-choices {
+	.container {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr); // make this a responsive grid
+		grid-gap: 1rem;
 
-	overflow-x: hidden;
-	// overflow-y: hidden;
+		.check {
+			grid-column: 3 / span 2;
+		}
+	}
+}
 
-	//style={{width: '45%', padding: '1rem' }}
-	.left {
-		margin: 0;
-
-		.container {
-			h2 {
-				font-weight: normal;
-				font-size: 3em;
-				margin: 0;
-			}
-
-			.settings {
+@media (max-width: 1024px) {
+	// if latop size is too small
+	.test {
+		.left {
+			display: none;
+		}
+		.right {
+			display: none;
+		}
+		.small-screen-warning {
+			display: initial;
+			.warning {
 				font-family: 'Poppins';
-				color: $primary;
 			}
+		}
+	}
+}
 
-			.skip {
-				font-family: 'Poppins';
-				background-color: $primary;
+@media (max-width: 1300px) {
+	.test {
+		.right {
+			.container {
+				.graph-container {
+					align-items: center;
+					margin-top: 20em;
+					.graph {
+						width: 60em;
+					}
+				}
 			}
 		}
 	}

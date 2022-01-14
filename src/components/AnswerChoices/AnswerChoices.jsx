@@ -44,11 +44,11 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, 
 
 
     return (
-        <div style ={{height: '100%', width: '100%', padding: '1rem'}}>
+        <div style ={{height: '100%', width: '100%', padding: '1rem'}} className="answer-choices">
             {/* <h1>{correctAnswer}</h1> */}
 
         {/* This div is for all the Answer Buttons */}
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr 1fr', gridRowGap: 10, gridColumnGap: 10}}>
+            <div className="container">
                 {
                     allAnswers.map(ans => (
                         <AnswerButton val={ans} setAnswerChoice={setAnswerChoice} answerChoice={answerChoice} correct={correct} setCorrect={setCorrect} correctAnswer={correctAnswer}/>
@@ -56,15 +56,15 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, 
                 }
                 {
                     (correct === true || correct === false) &&
-                    <Button variant="contained" style={{width: 200, height: 100}} onClick={getNewProblem} color='success' >
-                        <Typography variant="h6">Next Question</Typography>
+                    <Button variant="contained" onClick={getNewProblem} color='success' className="check" >
+                        <Typography variant="h6">Next</Typography>
                     </Button>
                 }
                 
                 {
                     correct === null &&
-                    <Button variant="contained" style={{width: 200, height: 100, backgroundColor: color}} onClick={onSubmit} >
-                        <Typography style={{fontSize: 24}}>Submit</Typography>
+                    <Button variant="contained" style={{backgroundColor: color}} onClick={onSubmit} className="check" >
+                        <Typography style={{fontSize: 24}}>check</Typography>
                     </Button>
                 }
             </div> 
@@ -133,30 +133,31 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
 
 const styles = {
     active: {
-        width: 200, 
-        height: 100, 
-        background: color, 
-        color: 'white',
+        width: 150, 
+        height: 75, 
+        // background: color, 
+        border: `5px solid ${color}`,
+        color: 'black'
         
     },
     default: {
-        width: 200, 
-        height: 100, 
+        width: 150, 
+        height: 75, 
         //background: 'grey', 
         color: 'black',
         border: '1px solid black',
-        fontSize: 36
+        fontSize: 10
 
     },
     correct: {
-        width: 200, 
-        height: 100, 
+        width: 150, 
+        height: 75, 
         background: 'green', 
         color: 'white' 
     },
     wrong : {
-        width: 200, 
-        height: 100, 
+        width: 150, 
+        height: 75, 
         background: 'red', 
         color: 'white'
     }

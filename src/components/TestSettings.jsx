@@ -53,14 +53,15 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
                 </div>
                 <div style={{display: 'flex'}}>
 
-                    <div style={{display: 'flex'}}>
+                    {/* remove following comment section to add graph functionality back */}
+                    {/* <div style={{display: 'flex'}}>
                         <Typography variant="h5">References: </Typography>
                         <Switch checked={references} style={{color: color}} onClick={() => setReferences( references ? false : true )} />     
                     </div>
                     <div style={{display: 'flex'}}>
                         <Typography variant="h5">Graph: </Typography>
                         <Switch checked={showGraph} style={{color: color}} onClick={() => setShowGraph( showGraph ? false : true )} />     
-                    </div>
+                    </div> */}
                     <div style={{display: 'flex'}}>
                         <Typography variant="h5">Radians: </Typography>
                         <Switch checked={radians} style={{color: color}} onClick={() => setRadians( radians ? false : true )} />     
