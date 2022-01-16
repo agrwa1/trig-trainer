@@ -14,7 +14,7 @@ body {
 .nav {
   width: 100vw;
   max-height: 12vh;
-  background-color: #fc636b;
+  background-color: midnightblue;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -34,14 +34,58 @@ body {
   font-family: 'Poppins';
 }
 
+.nav .link-text a {
+  color: #ffa701;
+}
+
+.nav .links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 .nav .links .link-text {
   font-size: 1.1em;
   padding: 1em;
+  color: white;
+}
+
+.nav .links a {
+  color: white;
+  position: relative;
+  height: 100%;
   text-decoration: none;
 }
 
-.nav .links .link-text:hover {
-  font-weight: bold;
+.nav .links a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transition: -webkit-transform 0.25s ease-out;
+  transition: -webkit-transform 0.25s ease-out;
+  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+}
+
+.nav .links a:hover::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
 }
 
 .test {
@@ -72,12 +116,22 @@ body {
 
 .test .left .container .util-buttons .settings {
   background: white;
-  color: #fc636b;
+  color: midnightblue;
+  font-family: 'Poppins';
 }
 
 .test .left .container .util-buttons .skip {
-  background: #fc636b;
+  font-family: 'Poppins';
+  background: midnightblue;
   color: white;
+  border: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 5px;
 }
 
 .test .left .container .problem-questions .problem-q {
@@ -86,6 +140,128 @@ body {
   font-weight: bold;
   margin: 0;
   padding: 0;
+}
+
+.test .left .container .problem-questions .problem-q span {
+  color: #ffa701;
+}
+
+.test .left .container .problem-questions .log-in-message .message {
+  font-family: 'Poppins';
+  font-weight: normal;
+  font-size: 1.5em;
+  margin: 0;
+  color: gray;
+}
+
+.test .left .container .problem-questions .log-in-message .message .link {
+  color: gray;
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+.test .left .container .problem-questions .log-in-message .message .link:hover {
+  color: #ffa701;
+}
+
+.test .left .container .answer-choices .choice {
+  margin: 100px;
+  padding: 0;
+  color: black;
+  position: relative;
+  z-index: 0;
+  font-weight: bold;
+}
+
+.test .left .container .answer-choices a.answer-choice-text {
+  width: 100%;
+  border: 1px solid black;
+  color: black;
+  position: relative;
+  z-index: 0;
+  font-weight: normal;
+  font-size: 20px;
+  font-family: 'Poppins';
+  padding: 0.5em 1.5em;
+}
+
+.test .left .container .answer-choices a.answer-choice-text:before {
+  content: '';
+  inset: 0;
+  background: midnightblue;
+  position: absolute;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: right;
+          transform-origin: right;
+  -webkit-transition: -webkit-transform 0.2s ease-in-out;
+  transition: -webkit-transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+  z-index: -1;
+}
+
+.test .left .container .answer-choices a.answer-choice-text:hover::before {
+  color: white;
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  background: midnightblue;
+}
+
+.test .left .container .answer-choices a.answer-choice-text:hover {
+  color: white;
+}
+
+.test .left .container .answer-choices .check {
+  color: white;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: midnightblue;
+}
+
+.test .left .container .answer-choices a.check-button {
+  font-size: 24px;
+  width: 100%;
+  font-family: 'Poppins';
+  display: inline-block;
+  position: relative;
+  font-weight: bold;
+}
+
+.test .left .container .answer-choices a.check-button::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transition: -webkit-transform 0.25s ease-out;
+  transition: -webkit-transform 0.25s ease-out;
+  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+}
+
+.test .left .container .answer-choices a.check-button:hover::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
 }
 
 .test .right .container .graph-container {
@@ -114,6 +290,7 @@ body {
   -ms-grid-columns: (1fr)[4];
       grid-template-columns: repeat(4, 1fr);
   grid-gap: 1rem;
+  margin-left: -0.95em;
 }
 
 .answer-choices .container .check {
@@ -173,18 +350,56 @@ body {
   font-family: 'Poppins';
 }
 
+.profile .container .headers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profile .container .headers .avatar {
+  margin: 0;
+  padding: 0;
+  margin-right: 1em;
+}
+
+.profile .container .stats .achievement {
+  font-family: 'Poppins';
+  margin: 1em 0;
+  font-weight: normal;
+  font-size: 2em;
+}
+
+.profile .container .stats .class-code {
+  font-family: 'Poppins';
+  margin: 1em 0;
+  font-weight: normal;
+  font-size: 1.5em;
+  color: gray;
+  margin: 0;
+}
+
 .profile .container .buttons {
   margin-top: 0.7em;
 }
 
+.profile .container .buttons .sign-out {
+  margin-left: 0.3em;
+}
+
 .profile .container .test-link {
-  background-color: #fc636b;
+  background-color: midnightblue;
   color: white;
   text-decoration: none;
 }
 
 .profile .container .sign-out {
-  background-color: #fc636b;
+  background-color: midnightblue;
   color: white;
 }
 
@@ -216,7 +431,7 @@ body {
   font-family: 'Poppins';
   font-size: 1.1em;
   color: white;
-  background-color: #fc636b;
+  background-color: midnightblue;
   margin-top: 0.7em;
 }
 /*# sourceMappingURL=styles.css.map */

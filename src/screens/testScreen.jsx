@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Backdrop, Typography } from '@mui/material'
-// import { auth } from '../firebase'
+import { auth } from '../firebase'
+import { problemSet } from '../utils/problems'
+import { getAuth } from 'firebase/auth'
+import 'firebase/auth'
+import { Link } from 'react-router-dom'
+
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+// ****** fix user auth persistence. not using firebase's asynchronous fucntion and checking synchronlously and start instead
 
 import TestGraph from './../components/TestGraph'
-import {problemSet} from './../utils/problems'
+
 import AnswerChoices from '../components/AnswerChoices/AnswerChoices'
 import TestSettings from '../components/TestSettings'
 import identifyAngles from '../utils/identifyAngles'
@@ -20,13 +28,16 @@ import identifyAngles from '../utils/identifyAngles'
 // -- make custom svg with better responsive design
 // -- add home page for students to learn trig
 // -- send "auth" variable to Nav.js so it can render EITHER login/signup OR profile
+// -- send report after session close
+// -- fix graph
 
 
 const TestScreen = () => {
     // const [reload, setReload] = useState(0) // this line is only to reload the page on auth change
     // const [streak, setStreak] = useState(0)
+
+    // let auth = getAuth()
     const [problem, setProblem] = useState({})
-    const [oldProblem, setOldProblem] = useState({})
     const [finalAnswerChoice, setFinalAnswerChoice] = useState('')
     const [correct, setCorrect] = useState(null)
     const [references, setReferences] = useState(false)
@@ -35,41 +46,10 @@ const TestScreen = () => {
     const [filteredOutQuadrants, setFilteredOutQuadrants] = useState({q1: false, q2: false, q3: false, q4: false})
     const [radians, setRadians] = useState(true)
     const [showGraph, setShowGraph] = useState(false)
+    const [user] = useAuthState(auth)
 
-    
-
-    // make function to change streak and pass to answer choices
-    
-    // implement auth and redirect
-    // set state for type of problem
-
-    // const handleGotProblemCorrect = () => {
-    //     setStreak(streak => streak + 1)
-    //     // set streak
-    //     // check if user is logged in
-    //     // if user is logged in, then:
-    //     // add correct question to database and update profile
-
-    //     // for adding info to database
-    //     // switch(problem.type) {
-    //     //     case 'sin':
-    //     // }
-
-    //     // setStreak(streak[problem.type]++)
-
-    //     // if (user is authenticated) {
-    //     //     add problem to database
-    //     // }
-    // }
-    // const handleGotProblemWrong = () => {
-    //     setStreak(0)
-    // }
 
     const getProblem = () => {
-        setOldProblem(problem) // this sets the old problem to the current problem
-        // console.log(`Old Problem: `)
-        // console.log(oldProblem)
-
         let random = problemSet[Math.floor(Math.random() * problemSet.length)];
         // verified = verifyproblem()
         // while !verified:
@@ -81,8 +61,6 @@ const TestScreen = () => {
             verified = verifyProblem(random)
         }
 
-        // console.log(`New Problem: `)
-        // console.log(problem)
         setProblem(random)
 
         // setting correct answer to null
@@ -129,9 +107,9 @@ const TestScreen = () => {
             }
         }
 
-        if (oldProblem.name === random.name) { // if new problem is the same as the old problem
-            return false
-        }
+        // if (oldProblem.name === random.name) { // if new problem is the same as the old problem
+        //     return false
+        // }
 
         return true
     }
@@ -139,14 +117,10 @@ const TestScreen = () => {
     useEffect(() => {
         if (!problem.name) {
             getProblem()
-            // console.log(problem.type)
-            // console.log(typeof problem.degree)
-            // console.log(identifyAngles('0'))
-            // console.log(auth)
         }
         // setReload(num => num + 1) // forcing re render -- very broken .causes thousands oferrors
         
-    })
+    }, [auth, problem])
 
     return (
 
@@ -177,7 +151,9 @@ const TestScreen = () => {
                         >
                             <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants} radians={radians} setRadians={setRadians} showGraph={showGraph} setShowGraph={setShowGraph}/>
                         </Backdrop>
-                        <Button className="skip" variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'} >Next Question</Button> 
+                        <Button className="skip" variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'}>
+                            <a className="skip">Next Question</a>
+                        </Button> 
                         {/* <div>
 
                         {
@@ -195,7 +171,7 @@ const TestScreen = () => {
                         // degrees mode
                         !radians &&
                         <div>
-                            <h2 className="problem-q">What is {problem.type}({problem.degree})?</h2> 
+                            <h2 className="problem-q">What is <span>{problem.type}({problem.degree})</span>?</h2> 
                         </div>
 
                     }
@@ -203,13 +179,20 @@ const TestScreen = () => {
                         // radians mode
                         radians &&
                         <div>
-                            <h2 className="problem-q">What is {problem.type}({identifyAngles(problem.degree)})?</h2> 
+                            <h2 className="problem-q">What is <span>{problem.type}({identifyAngles(problem.degree)})</span>?</h2> 
+                        </div>
+                    }
+                    {
+                        !auth.currentUser &&
+                        <div className="log-in-message">
+                            <h2 className="message"><Link to="/signup" className="link">Log in or sign up</Link> to save your results</h2>
                         </div>
                     }
                     </div>
 
 
-                    <div style={{width: '45%', margin:0, marginRight: '6em' }}>
+                    <div className="answer-container"> 
+                    {/* get rid of margin/padding that is weird */}
                         {/* {
                             !auth.currentUser &&
                             <Typography variant="h4">Please create an account</Typography>
@@ -217,18 +200,20 @@ const TestScreen = () => {
                         <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer}  setCorrect={setCorrect}  correct={correct} />
                         {/* after figuring out handleProblemRight and handleProblemWrong, can add arguments: onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} */}
                     </div>
+
+                    
+
                 </div>
             </div>
-                <div className="right">
-                    <div className="container">
-                        {
-                            showGraph &&
-                            <div className="graph-container">
-                                <TestGraph stoppingDegree={problem.degree} references={references} className="graph"/> 
-                            </div>
-                        }
-                    </div>
+            <div className="right">
+                <div className="container">
+                    {
+                        showGraph &&
+                        <TestGraph stoppingDegree={problem.degree} references={references} className="graph"/> 
+                    }
+                    
                 </div>
+            </div>
 
             {/* This is the right side of the screen with the answer Buttons */}
 
@@ -242,3 +227,33 @@ const TestScreen = () => {
 
 
 export default TestScreen;
+
+
+
+    // make function to change streak and pass to answer choices
+    
+    // implement auth and redirect
+    // set state for type of problem
+
+    // const handleGotProblemCorrect = () => {
+    //     setStreak(streak => streak + 1)
+    //     // set streak
+    //     // check if user is logged in
+    //     // if user is logged in, then:
+    //     // add correct question to database and update profile
+
+    //     // for adding info to database
+    //     // switch(problem.type) {
+    //     //     case 'sin':
+    //     // }
+
+    //     // setStreak(streak[problem.type]++)
+
+    //     // if (user is authenticated) {
+    //     //     add problem to database
+    //     // }
+    // }
+    // const handleGotProblemWrong = () => {
+    //     setStreak(0)
+    // }
+

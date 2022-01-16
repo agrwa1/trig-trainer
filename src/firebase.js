@@ -9,8 +9,14 @@
 // import 'firebase/firestore';
 import dotenv from 'dotenv';
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
+// auth
+import { getAuth } from 'firebase/auth';
 import 'firebase/auth';
+
+// firestore
+import { getFirestore } from 'firebase/firestore';
+
 dotenv.config();
 
 const app = initializeApp({
@@ -28,5 +34,6 @@ const app = initializeApp({
 // // console.log(firebaseApp);
 
 const auth = getAuth();
-export { auth };
+const db = getFirestore();
+export { auth, db };
 // const firestore = firebase.firestore();

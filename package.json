@@ -12,7 +12,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "dotenv": "^8.2.0",
-    "firebase": "^9.6.1",
+    "firebase": "^9.6.3",
     "firebaseui": "^5.0.0",
     "math.js": "^1.1.46",
     "react": "^17.0.2",

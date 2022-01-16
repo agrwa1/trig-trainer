@@ -10,8 +10,9 @@ import { Button, Typography, Fade } from '@mui/material'
 // 3) Create a final answer choice and use the setAnswerChoice method
 // 4) Accept the correct answer as props and handle submittion of answer
 
-const allAnswers = ['-√3/2', '-√2/2', '-1/2', '-1', '-√3', '-1/√3', '1/√3', '√3', '1', '1/2', '√2/2', '√3/2', '0', 'undefined']
-const color = '#fc636b'
+const allAnswers = ['-√3/2', '-√2/2', '-1/2', '-1', '-√3', '-1/√3', '1/√3', '√3', '1', '1/2', '√2/2', '√3/2', '0', 'undef.']
+const color = 'midnightblue'
+const secondaryColor = '#ffa701'
 
 const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, setCorrect, getNewProblem }) => {
     // correctAnswer
@@ -51,20 +52,20 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, 
             <div className="container">
                 {
                     allAnswers.map(ans => (
-                        <AnswerButton val={ans} setAnswerChoice={setAnswerChoice} answerChoice={answerChoice} correct={correct} setCorrect={setCorrect} correctAnswer={correctAnswer}/>
+                        <AnswerButton  val={ans} setAnswerChoice={setAnswerChoice} answerChoice={answerChoice} correct={correct} setCorrect={setCorrect} correctAnswer={correctAnswer}/>
                     ))
                 }
                 {
                     (correct === true || correct === false) &&
-                    <Button variant="contained" onClick={getNewProblem} color='success' className="check" >
-                        <Typography variant="h6">Next</Typography>
+                    <Button variant="contained" onClick={getNewProblem} color='success' className={"check"} >
+                        <a className="check-button">{correct === true && "Correct!"}{correct === false && "Incorrect!"} Next</a>
                     </Button>
                 }
                 
                 {
                     correct === null &&
-                    <Button variant="contained" style={{backgroundColor: color}} onClick={onSubmit} className="check" >
-                        <Typography style={{fontSize: 24}}>check</Typography>
+                    <Button variant="contained" onClick={onSubmit} className="check" >
+                        <a className="check-button">Check Answer</a>
                     </Button>
                 }
             </div> 
@@ -124,8 +125,8 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
         // make this look better
         <Fade in={true} className="button">
 
-            <Button onClick={onClick} style={styler(val)} color={clicked ? 'secondary' : "primary"} >
-                <Typography className="answer-choice-text" style={{fontSize: 24}} >{val}</Typography>
+            <Button onClick={onClick} className="choice" >
+                <a className="answer-choice-text" style={styler(val)} >{val}</a>
             </Button>
         </Fade>
     )
@@ -133,31 +134,15 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
 
 const styles = {
     active: {
-        width: 150, 
-        height: 75, 
-        // background: color, 
-        border: `5px solid ${color}`,
-        color: 'black'
+        color: 'white',
+        background: secondaryColor,
         
     },
-    default: {
-        width: 150, 
-        height: 75, 
-        //background: 'grey', 
-        color: 'black',
-        border: '1px solid black',
-        fontSize: 10
-
-    },
     correct: {
-        width: 150, 
-        height: 75, 
         background: 'green', 
         color: 'white' 
     },
     wrong : {
-        width: 150, 
-        height: 75, 
         background: 'red', 
         color: 'white'
     }
