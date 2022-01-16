@@ -32,11 +32,12 @@ const Nav = () => {
                 }
                 {
                     user &&
-                    <Link to="/profile" className="link-text" >Profile</Link>
-                }
-                {
-                    user &&
-                    <Avatar alt={auth.currentUser.displayName} src={auth.currentUser.photoURL} />
+                    <div >
+                        <Link to="/profile" className="link-text" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
+                            Profile
+                            <Avatar alt={auth.currentUser.displayName} src={auth.currentUser.photoURL} style={{marginLeft: '1em'}} />
+                        </Link>
+                    </div>
                 }
             </div>
         </div>

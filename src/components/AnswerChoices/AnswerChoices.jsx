@@ -89,6 +89,7 @@ const AnswerButton = ({val, setAnswerChoice, answerChoice, correct, setCorrect, 
         if (correct === true || correct === false ) {
             return
         }
+
         setAnswerChoice(val)
 
         // sets the current state of correctness to void

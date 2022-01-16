@@ -7,7 +7,7 @@ import { Typography, Paper, Button, Switch, FormGroup, FormControlLabel, Checkbo
 
 const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes, setFilteredOutTypes, filteredOutQuadrants, setFilteredOutQuadrants, radians, setRadians, showGraph, setShowGraph}) => {
 
-    const color = '#fc636b'
+    const color = 'midnightblue'
     const onTypeClick = (val) => {
         // if filteredOutTypes[val] is true, set to false. 
         // else set "" to true
@@ -48,7 +48,7 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
             <Paper elevation={4} style={styles.paper}>
                 <div>
                     <Typography variant="body1"><Checkbox disabled defaultChecked /> means allow questions of this type</Typography>
-                    <Typography variant="body1"><Checkbox disabled /> means do not allow questions of this type</Typography>
+                    <Typography variant="body1"><Checkbox disabled color="success"/> means do not allow questions of this type</Typography>
                     <hr />
                 </div>
                 <div style={{display: 'flex'}}>
@@ -71,7 +71,7 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
                 <div style={{display: 'flex', justifyContent: 'space-around'}}>
                     {/* checked == val !in don't allow list*/}
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox checked={!filteredOutTypes.sin}/>} onClick={() => onTypeClick('sin')} label="Sin" />
+                        <FormControlLabel style={{color: color}} control={<Checkbox checked={!filteredOutTypes.sin}  />  } onClick={() => onTypeClick('sin')} label="Sin" />
                         <FormControlLabel control={<Checkbox checked={!filteredOutTypes.cos}/>} onClick={() => onTypeClick('cos')} label="Cos" />
                         <FormControlLabel control={<Checkbox checked={!filteredOutTypes.tan}/>} onClick={() => onTypeClick('tan')} label="Tan" />
                     </FormGroup>

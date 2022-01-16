@@ -246,7 +246,7 @@ body {
 	.container {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr); // make this a responsive grid
-		grid-gap: 1rem;
+		grid-gap: 0.5rem;
 		margin-left: -0.95em;
 
 		.check {

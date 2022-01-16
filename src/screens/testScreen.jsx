@@ -33,23 +33,27 @@ import identifyAngles from '../utils/identifyAngles'
 
 
 const TestScreen = () => {
-    // const [reload, setReload] = useState(0) // this line is only to reload the page on auth change
-    // const [streak, setStreak] = useState(0)
-
-    // let auth = getAuth()
+    // LOGISTICS/PROBLEM
     const [problem, setProblem] = useState({})
+    const [previousProblem, setPreviousProblem] = useState({})
     const [finalAnswerChoice, setFinalAnswerChoice] = useState('')
     const [correct, setCorrect] = useState(null)
+    
+    // SETTINGS
     const [references, setReferences] = useState(false)
     const [settings, setSettings ] = useState(false)
     const [filteredOutTypes, setFilteredOutTypes] = useState({sin: false, cos: false, tan: false})
     const [filteredOutQuadrants, setFilteredOutQuadrants] = useState({q1: false, q2: false, q3: false, q4: false})
     const [radians, setRadians] = useState(true)
     const [showGraph, setShowGraph] = useState(false)
+
+    // AUTHENTICATION
     const [user] = useAuthState(auth)
 
 
     const getProblem = () => {
+        setPreviousProblem(problem)
+        setFinalAnswerChoice('') // clears answer choice from previous question
         let random = problemSet[Math.floor(Math.random() * problemSet.length)];
         // verified = verifyproblem()
         // while !verified:
@@ -92,6 +96,7 @@ const TestScreen = () => {
             }
         }
 
+        // if there are quadrant preferences
         if (filteredOutQuadrants.q1 || filteredOutQuadrants.q2 || filteredOutQuadrants.q3 || filteredOutQuadrants.q4) {
             if (filteredOutQuadrants.q1) {
                 if (quadrant === '1') return false 
@@ -106,10 +111,10 @@ const TestScreen = () => {
                 if (quadrant === '4') return false 
             }
         }
-
-        // if (oldProblem.name === random.name) { // if new problem is the same as the old problem
-        //     return false
-        // }
+        
+        if (previousProblem.name === random.name) {
+            return false
+        }
 
         return true
     }

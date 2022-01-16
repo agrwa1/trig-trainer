@@ -17,7 +17,7 @@ const SignUpScreen = () => {
     
 
     const handleSignUp = async () => {
-        await signInWithRedirect(auth, provider)
+        await signInWithPopup(auth, provider) // signInWithRedirect doesn't work on trigtrainer.com
         reRender(num => num + 1)
         auth = getAuth()
     }
