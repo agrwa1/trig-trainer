@@ -6,8 +6,11 @@ import { Redirect, Link } from 'react-router-dom'
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { firebaseGetStudentProblems, firebaseGetStudentCorrectProblems, firebaseGetStudentWrongProblems } from '../utils/firebaseFunctions'
+import { firebaseGetStudentProblems, firebaseCreateClass } from '../utils/firebaseFunctions'
 import { firebaseGetStudentInfo} from '../utils/firebaseFunctions'
+import { firebaseCreateBasicUser, firebaseCreateTeacherUser, firebaseFindUserExistsByEmail } from '../utils/firebaseFunctions'
+// firebaseCreateClass('Mr. Teacher', "Mr. Teacher's Calculus 1st Period")
+
 
 const ProfileScreen = () => {
     let auth = getAuth()
@@ -43,17 +46,34 @@ const ProfileScreen = () => {
 
 const Content = ({handleClick}) => {
     let auth = getAuth()
-    const [allProblems, setAllProblems] = useState(0)
-    const [correctProblems, setCorrectProblems] = useState(0)
-    const [wrongProblems, setWrongProblems] = useState(0)
+    const [allProblems, setAllProblems] = useState([])
     const [studentInfo, setStudentInfo] = useState({})
     const [reload, setReload] = useState(false)
 
+    const createUser = async () => {
+        await firebaseCreateBasicUser({name: auth.currentUser.displayName, email: auth.currentUser.email, photo_url: auth.currentUser.photoURL}) // when user signs up, creates default student account
+    }
+    const checkUserExistence = async () => {
+        return await firebaseFindUserExistsByEmail(auth.currentUser.email)
+    }
+
+    const checkAndCreate = async () => {
+        // eventually need to move this to sign up page. If user doesn't exist, create user
+
+        // if user already has account
+        const userExists = await checkUserExistence()
+        if (userExists) return;
+        
+        // if user doesn't exist, create account
+        await createUser()
+    }
+
     useEffect(async () => {
+        // don't need to verify user exists, b/c if they didn't they would be automatically redirected to sign up page
+        checkAndCreate(); // this is not await b/c this shouldn't be blocking
         setStudentInfo(await firebaseGetStudentInfo(auth.currentUser.email))
+        // this will return an array of length 3 that contains the total number of problems, the number of correct problems, and the number of wrong problems
         setAllProblems(await firebaseGetStudentProblems(auth.currentUser.email))
-        setCorrectProblems(await firebaseGetStudentCorrectProblems(auth.currentUser.email))
-        setWrongProblems(await firebaseGetStudentWrongProblems(auth.currentUser.email))
     }, [reload])
 
     
@@ -66,10 +86,14 @@ const Content = ({handleClick}) => {
                     <Typography variant="h2" className="header">{auth.currentUser.displayName}</Typography>
                 </div>
                 <div className="stats">
-                    <Typography variant="h3" className="class-code">Email: {studentInfo.email}</Typography>
-                    <Typography variant="h3" className="achievement">Total Questions Attempted: {allProblems} </Typography>
-                    <Typography variant="h3" className="achievement">Total Questions Correct: {correctProblems}</Typography>
-                    <Typography variant="h3" className="achievement">Total Questions Wrong: {wrongProblems}</Typography>
+                    
+                    <Typography variant="h3" className="class-code">Email: {auth.currentUser.email}</Typography>
+                    <Typography variant="h3" className="achievement">Total Questions Attempted: {allProblems[0]} </Typography>
+                    <Typography variant="h3" className="achievement">Total Questions Correct: {allProblems[1]}</Typography>
+                    <Typography variant="h3" className="achievement">Total Questions Wrong: {allProblems[2]}</Typography>
+
+                </div>
+                <div className="join-class">
 
                 </div>
                 <div className="buttons">

@@ -4,6 +4,7 @@ import HomeScreen from './screens/HomeScreen';
 import TestScreen from './screens/TestScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import TeacherOverviewScreen from './screens/TeacherOverviewScreen';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -26,6 +27,7 @@ function App() {
 					<Route path='/learn'>
 						<Redirect to='/' />
 					</Route>
+					<Route path='overview' component={TeacherOverviewScreen} />
 					<Route path='/' component={HomeScreen}>
 						<Redirect to='/test' />
 					</Route>
