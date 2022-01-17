@@ -10,19 +10,15 @@ import { Button, Typography, Fade } from '@mui/material'
 // 3) Create a final answer choice and use the setAnswerChoice method
 // 4) Accept the correct answer as props and handle submittion of answer
 
-const allAnswers = ['-√3/2', '-√2/2', '-1/2', '-1', '-√3', '-1/√3', '1/√3', '√3', '1', '1/2', '√2/2', '√3/2', '0', 'undef.']
+const allAnswers = ['-√3/2', '-√2/2', '-1/2', '-1', '-√3', '-1/√3', '1/√3', '√3', '1', '1/2', '√2/2', '√3/2', '0', 'undefined']
 const color = 'midnightblue'
 const secondaryColor = '#ffa701'
 
-const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, setCorrect, getNewProblem }) => {
+const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, setCorrect, getNewProblem, onCorrect, onWrong }) => {
     // correctAnswer
     // AnswerChoice
     // setAnswerChoice
-    // onCorrect
-    // onWrong
 
-    // BUGS:
-    // after submittion, user can still click other options and resubmit to get question right
 
     // if ans ==== AnswerChoice, then active, if not then default
 
@@ -30,10 +26,12 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, 
         // function should check if answer is correct and call appropriate functions
         if (correctAnswer === answerChoice ) {
             setCorrect(true)
+            onCorrect()
             
         }
         else {
             setCorrect(false)
+            onWrong()
         }
          
     }
@@ -69,10 +67,6 @@ const AnswerChoices = ({ setAnswerChoice, answerChoice, correctAnswer, correct, 
                     </Button>
                 }
             </div> 
-
-            
-
-            {/* <h1>{answerChoice}</h1> */}
         </div>
     )
 }

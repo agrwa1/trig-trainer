@@ -71,7 +71,7 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
                 <div style={{display: 'flex', justifyContent: 'space-around'}}>
                     {/* checked == val !in don't allow list*/}
                     <FormGroup>
-                        <FormControlLabel style={{color: color}} control={<Checkbox checked={!filteredOutTypes.sin}  />  } onClick={() => onTypeClick('sin')} label="Sin" />
+                        <FormControlLabel control={<Checkbox checked={!filteredOutTypes.sin}  />  } onClick={() => onTypeClick('sin')} label="Sin" />
                         <FormControlLabel control={<Checkbox checked={!filteredOutTypes.cos}/>} onClick={() => onTypeClick('cos')} label="Cos" />
                         <FormControlLabel control={<Checkbox checked={!filteredOutTypes.tan}/>} onClick={() => onTypeClick('tan')} label="Tan" />
                     </FormGroup>
@@ -91,6 +91,8 @@ const TestSettings = ({ references, setReferences, setSettings, filteredOutTypes
     )
 }
 
+
+
 //ALGORITHM:
 // List of filters that are checked to have at least one value 
 // While (problem.type == type in don't allow list || problem.quadrant == type in don't allow list ) {
@@ -102,7 +104,7 @@ const styles = {
         padding: '2em', 
         display:'flex', 
         flexDirection: 'column',
-        
+
     }
 }
 

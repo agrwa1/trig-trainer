@@ -1,12 +1,3 @@
-// // import firebase from 'firebase/compat/app';
-// // import 'firebase/compat/auth';
-// // import 'firebase/compat/firestore';
-// // const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
-
-// // import { getFirestore, collection, query } from 'firebase/firestore';
-// import firebase from 'firebase';
-
-// import 'firebase/firestore';
 import dotenv from 'dotenv';
 import { initializeApp } from 'firebase/app';
 
@@ -16,9 +7,10 @@ import 'firebase/auth';
 
 // firestore
 import { getFirestore } from 'firebase/firestore';
+import 'firebase/firestore';
 
+// initialize app
 dotenv.config();
-
 const app = initializeApp({
 	apiKey: process.env.REACT_APP_FIREBASE_CONFIG_API_KEY,
 	authDomain: process.env.REACT_APP_FIREBASE_CONFIG_AUTH_DOMAIN,
@@ -31,9 +23,6 @@ const app = initializeApp({
 	measurementId: process.env.REACT_APP_FIREBASE_CONFIG_MEASUREMENT_ID,
 });
 
-// // console.log(firebaseApp);
-
 const auth = getAuth();
 const db = getFirestore();
 export { auth, db };
-// const firestore = firebase.firestore();

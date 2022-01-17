@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Backdrop, Typography } from '@mui/material'
-import { auth } from '../firebase'
+import { Button, Backdrop, Typography, Switch } from '@mui/material'
 import { problemSet } from '../utils/problems'
-import { getAuth } from 'firebase/auth'
-import 'firebase/auth'
 import { Link } from 'react-router-dom'
 
+import { auth } from '../firebase'
+import { getAuth } from 'firebase/auth'
+import 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth';
+
+import { db } from '../firebase'
+import { collection, addDoc } from 'firebase/firestore'
+import { firebaseProblemCorrect, firebaseProblemWrong } from '../utils/firebaseFunctions'
 
 // ****** fix user auth persistence. not using firebase's asynchronous fucntion and checking synchronlously and start instead
 
@@ -20,16 +24,15 @@ import identifyAngles from '../utils/identifyAngles'
 
 // IDEAS:
 //  - Make the next problem function into a doubly linked list so users can go back to review answers
-//  - Make sure the same question doesn't get repeated
-//  - add footer and make App.js styling to Maxwidth: 100vw and maxHeight: 100vh
 // ** adaptive algorithm. record students correct vs incorrect.
 // -- make teacher class and let students sign up for a teachers class. teachers can see students progress.
-// -- animations
 // -- make custom svg with better responsive design
 // -- add home page for students to learn trig
-// -- send "auth" variable to Nav.js so it can render EITHER login/signup OR profile
 // -- send report after session close
 // -- fix graph
+
+const color = 'midnightblue'
+const secondaryColor = '#ffa701;'
 
 
 const TestScreen = () => {
@@ -119,6 +122,15 @@ const TestScreen = () => {
         return true
     }
 
+    const handleGotProblemCorrect = () => {
+        if (!user) return // if user isn't logged in, dont try firebase 
+        firebaseProblemCorrect(problem, auth.currentUser.email)
+    }
+    const handleGotProblemWrong = () => {
+        if (!user) return // if user isn't logged in, dont try firebase
+        firebaseProblemWrong(problem, auth.currentUser.email)
+    }
+
     useEffect(() => {
         if (!problem.name) {
             getProblem()
@@ -137,25 +149,21 @@ const TestScreen = () => {
             <div className="left" >
                 <div className="container" > 
 
-                    {/* <div>
-
-                        {/* Can make streak simpler. For every question right, add a flame */}
-                        {/* {
-                            streak >= 2 &&
-                            <Typography variant="h4">{streak} in a row 🔥🔥.</Typography> 
-                        } */}
-                    {/* </div>  */}
-
                     <div className="util-buttons">
-                        <Button className="settings" variant="text" onClick={() => setSettings(true)}>
+                        {/* <Button className="settings" variant="text" onClick={() => setSettings(true)}>
                             Settings
-                        </Button>
-                        <Backdrop   
+                        </Button> */}
+                        {/* <Backdrop   
                             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                             open={settings}                             
-                        >
+                            >
                             <TestSettings references={references} setReferences={setReferences} setSettings={setSettings} filteredOutTypes={filteredOutTypes} setFilteredOutTypes={setFilteredOutTypes} filteredOutQuadrants={filteredOutQuadrants} setFilteredOutQuadrants={setFilteredOutQuadrants} radians={radians} setRadians={setRadians} showGraph={showGraph} setShowGraph={setShowGraph}/>
-                        </Backdrop>
+                        </Backdrop> */}
+                        
+                        <div style={{display: 'flex'}}>
+                            <Typography variant="h5"></Typography>
+                            <Switch checked={radians} style={{color: color}} onClick={() => setRadians( radians ? false : true )} />     
+                        </div>
                         <Button className="skip" variant="contained" onClick={getProblem} color={correct ? 'success' : (correct === false) ? 'error' : 'primary'}>
                             <a className="skip">Next Question</a>
                         </Button> 
@@ -187,6 +195,7 @@ const TestScreen = () => {
                             <h2 className="problem-q">What is <span>{problem.type}({identifyAngles(problem.degree)})</span>?</h2> 
                         </div>
                     }
+                    
                     {
                         !auth.currentUser &&
                         <div className="log-in-message">
@@ -202,9 +211,10 @@ const TestScreen = () => {
                             !auth.currentUser &&
                             <Typography variant="h4">Please create an account</Typography>
                         } */}
-                        <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} correctAnswer={problem.answer}  setCorrect={setCorrect}  correct={correct} />
-                        {/* after figuring out handleProblemRight and handleProblemWrong, can add arguments: onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} */}
+                        <AnswerChoices getNewProblem={getProblem} setAnswerChoice={setFinalAnswerChoice} answerChoice={finalAnswerChoice} onCorrect={handleGotProblemCorrect} onWrong={handleGotProblemWrong} correctAnswer={problem.answer}  setCorrect={setCorrect}  correct={correct} />
                     </div>
+
+                   
 
                     
 
@@ -233,32 +243,4 @@ const TestScreen = () => {
 
 export default TestScreen;
 
-
-
-    // make function to change streak and pass to answer choices
-    
-    // implement auth and redirect
-    // set state for type of problem
-
-    // const handleGotProblemCorrect = () => {
-    //     setStreak(streak => streak + 1)
-    //     // set streak
-    //     // check if user is logged in
-    //     // if user is logged in, then:
-    //     // add correct question to database and update profile
-
-    //     // for adding info to database
-    //     // switch(problem.type) {
-    //     //     case 'sin':
-    //     // }
-
-    //     // setStreak(streak[problem.type]++)
-
-    //     // if (user is authenticated) {
-    //     //     add problem to database
-    //     // }
-    // }
-    // const handleGotProblemWrong = () => {
-    //     setStreak(0)
-    // }
 
