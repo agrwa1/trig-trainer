@@ -27,7 +27,7 @@ function App() {
 					<Route path='/learn'>
 						<Redirect to='/' />
 					</Route>
-					<Route path='overview' component={TeacherOverviewScreen} />
+					<Route path='/overview' component={TeacherOverviewScreen} />
 					<Route path='/' component={HomeScreen}>
 						<Redirect to='/test' />
 					</Route>

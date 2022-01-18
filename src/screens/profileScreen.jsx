@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Typography, Button, Avatar} from '@material-ui/core'
+import {Typography, Button, Avatar, TextField} from '@material-ui/core'
 import { auth } from '../firebase'
 import { signOut, getAuth } from 'firebase/auth'
 import { Redirect, Link } from 'react-router-dom'
@@ -10,6 +10,7 @@ import { firebaseGetStudentProblems, firebaseCreateClass } from '../utils/fireba
 import { firebaseGetStudentInfo} from '../utils/firebaseFunctions'
 import { firebaseCreateBasicUser, firebaseCreateTeacherUser, firebaseFindUserExistsByEmail } from '../utils/firebaseFunctions'
 // firebaseCreateClass('Mr. Teacher', "Mr. Teacher's Calculus 1st Period")
+import { firebaseAddStudentToClass } from '../utils/firebaseFunctions'
 
 
 const ProfileScreen = () => {
@@ -49,6 +50,7 @@ const Content = ({handleClick}) => {
     const [allProblems, setAllProblems] = useState([])
     const [studentInfo, setStudentInfo] = useState({})
     const [reload, setReload] = useState(false)
+    const [classCode, setClassCode] = useState('')
 
     const createUser = async () => {
         await firebaseCreateBasicUser({name: auth.currentUser.displayName, email: auth.currentUser.email, photo_url: auth.currentUser.photoURL}) // when user signs up, creates default student account
@@ -76,7 +78,13 @@ const Content = ({handleClick}) => {
         setAllProblems(await firebaseGetStudentProblems(auth.currentUser.email))
     }, [reload])
 
-    
+    const joinClass = async () => {
+        await firebaseAddStudentToClass(studentInfo.email, classCode, studentInfo.classes)
+        alert('Class has been joined')
+        setClassCode('')
+    }
+
+    // user is student && join class w code
     return (
         <div className="profile">
             
@@ -93,8 +101,10 @@ const Content = ({handleClick}) => {
                     <Typography variant="h3" className="achievement">Total Questions Wrong: {allProblems[2]}</Typography>
 
                 </div>
-                <div className="join-class">
 
+                <div className="join-class" style={{display: 'flex', justifyContent: 'start', alignItems: 'center'}}>
+                    <TextField variant="outlined" value={classCode} onChange={e => setClassCode(e.target.value)} placeholder="Class Code" size="small"/>
+                    <Button variant="outlined" onClick={joinClass}>Join Class</Button>
                 </div>
                 <div className="buttons">
                     <Link to="/test" >

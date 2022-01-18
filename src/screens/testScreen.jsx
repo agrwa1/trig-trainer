@@ -30,6 +30,8 @@ import identifyAngles from '../utils/identifyAngles'
 // -- add home page for students to learn trig
 // -- send report after session close
 // -- fix graph
+// -- create caching mechanism in local storage to reduce firebase costs
+// -- there is currently bug where teacher can join a class and see all the information for that class
 
 const color = 'midnightblue'
 const secondaryColor = '#ffa701;'

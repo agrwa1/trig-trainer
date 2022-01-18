@@ -8,15 +8,23 @@ import { auth } from '../firebase'
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 
+import { firebaseGetUserIsTeacher } from '../utils/firebaseFunctions'
 
 const Nav = () => {
-    let auth = getAuth()
     const [user] = useAuthState(auth)
-    // console.log(auth)
+    const [userIsTeacher, setUserIsTeacher] = useState(false)
 
     useEffect(async () => {
-        auth = await getAuth()
-    })
+        await getUserInfo()
+        
+    }, user)
+
+    const getUserInfo = async () => {
+        if (!auth.currentUser) return
+        const email = auth.currentUser.email
+        if (!email) return;
+        setUserIsTeacher(await firebaseGetUserIsTeacher(email))
+    }
 
     return (
         <div className="nav">
@@ -29,6 +37,11 @@ const Nav = () => {
                 {
                     !user &&  
                     <Link to="/signup" className="link-text" >Sign Up/Log In</Link>
+                }
+                {
+                    (user && userIsTeacher) &&
+                    <Link to="/overview" className="link-text">Overview</Link>
+
                 }
                 {
                     user &&

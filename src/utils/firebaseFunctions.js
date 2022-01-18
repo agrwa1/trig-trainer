@@ -96,6 +96,33 @@ export const firebaseGetStudentInfo = async (email) => {
 	}
 };
 
+export const firebaseGetUserIsTeacher = async (email) => {
+	try {
+		const docRef = doc(db, 'users', email);
+		const docSnap = await getDoc(docRef);
+		if (docSnap.data().account_type !== 'teacher') return false;
+		return true;
+	} catch (e) {
+		console.log(`Error getting information: ${e}`);
+	}
+};
+
+export const firebaseGetTeacherInfo = async (email) => {
+	try {
+		const docRef = doc(db, 'users', email); // finds doc in "users" "db" where id = email
+		const docSnap = await getDoc(docRef);
+		if (!docSnap.exists()) {
+			// when user with email does not exist
+			return {};
+		}
+		if (docSnap.data().account_type !== 'teacher')
+			return 'User is not a teacher';
+		return docSnap.data();
+	} catch (e) {
+		throw e;
+	}
+};
+
 export const firebaseGetStudentProblems = async (email) => {
 	// for future: make this use numbers and not arrays
 	try {
@@ -129,11 +156,38 @@ export const firebaseGetStudentProblems = async (email) => {
 	}
 };
 
-export const firebaseAddStudentToClass = async (email, classCode) => {
+export const firebaseAddStudentToClass = async (
+	email,
+	classCode,
+	currentClasses
+) => {
 	//      - find student user
 	//      - add class id to student
 	//      - find class by class id
 	//      - add student to class
+	try {
+		const userRef = doc(db, 'users', email);
+		await setDoc(
+			userRef,
+			{
+				classes: [...currentClasses, classCode],
+			},
+			{ merge: true }
+		);
+
+		const classRef = doc(db, 'classes', classCode);
+		const classData = await firebaseGetClassInfo(classCode);
+		const studentArr = classData.students;
+		await setDoc(
+			classRef,
+			{
+				students: [...studentArr, email],
+			},
+			{ merge: true }
+		);
+	} catch (e) {
+		console.log(`Error adding student to class: ${e}`);
+	}
 };
 
 // const firebaseGetClassInfo
@@ -143,11 +197,30 @@ export const firebaseAddStudentToClass = async (email, classCode) => {
 
 //      - search using query that has name == class name and teacher == teacher name
 
+export const firebaseGetClassInfo = async (code) => {
+	try {
+		const docRef = doc(db, 'classes', code); // finds doc in "users" "db" where id = email
+		const docSnap = await getDoc(docRef);
+		if (!docSnap.exists()) {
+			// when class doesn't exist
+			return {};
+		}
+		// returns class names, and students
+		return docSnap.data();
+	} catch (e) {
+		throw e;
+	}
+};
+
 // create clas
 // - generate random 6 digit hexadecimal
 // - check if code exists, if no, return
 // - if yes, repeat
-export const firebaseCreateClass = async (teacherEmail, className) => {
+export const firebaseCreateClass = async (
+	teacherEmail,
+	className,
+	currentClasses
+) => {
 	// creates 6digit hexadecimal code
 	let code = generateCode();
 
@@ -174,6 +247,16 @@ export const firebaseCreateClass = async (teacherEmail, className) => {
 			students: [],
 			createdAt: new Date(),
 		});
+
+		// add class to teacher profile
+		const teacherRef = doc(db, 'users', teacherEmail); // gets teacher reference
+		await setDoc(
+			teacherRef,
+			{
+				classes: [...currentClasses, code],
+			},
+			{ merge: true }
+		);
 	} catch (e) {
 		console.log(`Error creating class: ${e}`);
 	}

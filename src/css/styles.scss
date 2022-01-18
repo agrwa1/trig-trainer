@@ -379,3 +379,74 @@ body {
 		margin-top: 0.7em;
 	}
 }
+
+.overview {
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	padding: 1em;
+	min-width: 100%;
+
+	.create-class {
+		display: flex;
+		justify-content: start;
+		align-items: center;
+	}
+
+	h1 {
+		font-family: 'Poppins';
+		margin: 0;
+		padding: 0;
+		font-size: 4em;
+	}
+
+	.classes-info {
+		.class-header {
+			font-size: 2em;
+			margin-top: 2em;
+			margin: 0;
+			padding: 0;
+		}
+		.code {
+			color: gray;
+			font-size: 1.5em;
+			margin: 0;
+			padding: 0;
+			margin-bottom: 1em;
+		}
+
+		.subheader {
+			display: flex;
+		}
+
+		.students-list {
+			display: grid;
+			width: 100%;
+			grid-template-columns: repeat(4, 1fr);
+			grid-template-rows: auto;
+			grid-gap: 1rem;
+
+			.student-card {
+			}
+		}
+	}
+
+	.student-card {
+		width: 100%;
+		margin: 5px;
+		.card-content {
+			.email {
+				color: gray;
+				font-family: 'Poppins';
+			}
+
+			.name {
+				font-family: 'Poppins';
+			}
+
+			.problem-count {
+				font-family: 'Poppins';
+			}
+		}
+	}
+}
