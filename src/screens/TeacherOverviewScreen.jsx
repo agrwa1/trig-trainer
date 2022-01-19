@@ -10,10 +10,11 @@ import { firebaseCreateClass, firebaseGetClassInfo } from '../utils/firebaseFunc
 import { firebaseGetStudentInfo, firebaseGetStudentProblems} from '../utils/firebaseFunctions'
 
 // create individual class page and link each class to go there via props
+// rereouting if user is not teacher
 const TeacherOverviewScreen = () => {
 	const [userIsTeacher, setUserIsTeacher] = useState(false)
 	const [user] = useAuthState(auth)
-
+	
 	useEffect(async () => {
         await getUserInfo()
         
@@ -42,6 +43,7 @@ const TeacherOverviewScreen = () => {
 	);
 };
 
+// creates class functionality and gets teacher information. 
 const Content = () => {
 	// creating class error: FORM ERROR NOT FIREBASE ERROR, NAME IS NOT WORKING PROPERLY
 	const [teacherData, setTeacherData] = useState({})
@@ -73,8 +75,8 @@ const Content = () => {
 					<Button variant="outlined" onClick={() => createNewClass()} >Create Class</Button>
 				</div>				
 				{
-					showComponent &&
-					<ClassesInformation classes={teacherData.classes}/>
+					(showComponent && teacherData.classes) &&
+					teacherData.classes.map((classCode) => <ClassInfo classCode={classCode} />)
 				}
 			</div>
 
@@ -83,51 +85,48 @@ const Content = () => {
 	)
 }
 
-function ClassesInformation({classes}) {
-	// component gets list of all classes and has to render them
-	return (
-		<div>
-			<hr></hr>
-			{
-				classes && 
-				classes.map((classCode) => <ClassInfo classCode={classCode} />) // contains class code
-			}
-		</div>
-
-	)
-}
-
+// renders each class
 function ClassInfo({classCode}) {
 	const [className, setClassName] = useState('')
 	const [students, setStudents] = useState([])
 	const [showClass, setShowClass] = useState(false)
+	const [userIsTeacher, setUserIsTeacher] = useState(false)
 
 	let classesData
 	useEffect(async() => {
 		classesData = await firebaseGetClassInfo(classCode) // gets all information from class code passed down
 		setClassName(classesData.name) // sets class name
 		setStudents(classesData.students) // sets all students array
-		console.log(classesData.students)
+		
+		setUserIsTeacher(auth.currentUser.email === classesData.teacher)
 	}, [])
 
 	const onSwitch = () => {
 		setShowClass(showClass ? false : true)
 	}
 
+	// teacher of class should === current user
+
 	return (
 		<div className={'classes-info'}>
-			<h1 className="class-header">{className}</h1>
-			<div className="subheader">
-				<Switch value={showClass} onClick={onSwitch} style={{color: 'midnightblue'}}/>
-				<p className="code">{classCode}</p>
-			</div>
-			
-			<div className="students-list">
-				{
-					(students && showClass) &&
-					students.map((studentEmail) => <StudentInfo studentEmail={studentEmail} style={{display: showClass ? 'grid' : 'none'}}/>)
-				}
-			</div>
+			{
+				userIsTeacher &&
+				<div>
+					<h1 className="class-header">{className}</h1>
+					<div className="subheader">
+						<Switch value={showClass} onClick={onSwitch} style={{color: 'midnightblue'}}/>
+						<p className="code">{classCode}</p>
+					</div>
+					
+					<div className="students-list">
+						{
+							(students && showClass) &&
+							students.map((studentEmail, index) => <StudentInfo key={index} studentEmail={studentEmail} style={{display: showClass ? 'grid' : 'none'}}/>)
+						}
+					</div>
+				</div>
+
+			}
 		</div>
 	)
 }
