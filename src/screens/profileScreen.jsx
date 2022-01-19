@@ -70,6 +70,11 @@ const Content = ({handleClick}) => {
         await createUser()
     }
 
+    const createTeacherUser = async () => {
+        console.log('starting creating teacher')
+        await firebaseCreateTeacherUser({email: auth.currentUser.email})
+    }
+
     useEffect(async () => {
         // don't need to verify user exists, b/c if they didn't they would be automatically redirected to sign up page
         checkAndCreate(); // this is not await b/c this shouldn't be blocking
@@ -107,9 +112,8 @@ const Content = ({handleClick}) => {
                     <Button variant="outlined" onClick={joinClass}>Join Class</Button>
                 </div>
                 <div className="buttons">
-                    <Link to="/test" >
-                        <Button variant="contained" className="test-link">Test Yourself</Button>
-                    </Link>
+                    <Button variant="contained" onClick={createTeacherUser} className="test-link">Become a Teacher</Button>
+                    
                     <Button variant="contained" className="sign-out" onClick={handleClick}>Sign Out</Button>
                 </div>
             </div>

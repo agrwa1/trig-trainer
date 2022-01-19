@@ -62,9 +62,21 @@ export const firebaseCreateBasicUser = async (user) => {
 	}
 };
 
-export const firebaseCreateTeacherUser = async (user) => {
+export const firebaseCreateTeacherUser = async ({ email }) => {
 	// find user
 	// update with new info
+	try {
+		const userRef = doc(db, 'users', email);
+		await setDoc(
+			userRef,
+			{
+				account_type: 'teacher',
+			},
+			{ merge: true }
+		);
+	} catch (e) {
+		console.log('Error adding user: ', e);
+	}
 };
 
 export const firebaseFindUserExistsByEmail = async (email) => {
